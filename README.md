@@ -1,2 +1,2 @@
 # GXfood
-the website of colorful food of GuangXi
+the website of colorful food for GuangXi
