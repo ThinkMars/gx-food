@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div>我是底部</div>
 </template>
 
 <script>

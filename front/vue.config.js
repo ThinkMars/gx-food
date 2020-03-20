@@ -13,15 +13,18 @@ module.exports = {
     // //
 
     css: {
-        requireModuleExtension: false, //启动css Modules
+        requireModuleExtension: true, //启动css Modules eg:有时候element引入效果出不来可以改为true
         extract: true, //css分离插件
         loaderOptions: {
             css: {
                 modules: {
-                    localIdentName: "[path]-[name]-[local]-[hash:base64:5]",
-                    camelCase: true
-                },
-                localsConvention: 'camelCaseOnly'
+                    localIdentName: '[path]-[name]-[local]-[hash:base64:5]'
+                  },
+                  localsConvention: 'camelCaseOnly'
+                // css:{
+                //     localIdentName:"[path]-[name]-[local]-[hash:base64:5]",
+                //     camelCase:true,
+                // }
             },
             sass: {
                 prependData: `@import "@/assets/css/_style.scss";`

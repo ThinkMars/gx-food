@@ -20,7 +20,7 @@ export default new Router ({
             redirect:"/index",
             meta:{
 				name:"主页",
-				icon:"el-icon-zhuye"
+				icon:"el-icon-zhuye" // 显示的图标
             },
             children:[
                 {
@@ -36,5 +36,4 @@ export default new Router ({
             ]
         }
     ]
-
 })
