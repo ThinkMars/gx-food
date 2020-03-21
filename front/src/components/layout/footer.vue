@@ -1,5 +1,5 @@
 <template>
-  <div>我是底部</div>
+  <div>这个是废底部</div>
 </template>
 
 <script>

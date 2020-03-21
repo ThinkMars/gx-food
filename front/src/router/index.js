@@ -1,6 +1,6 @@
 import Vue from "vue"
 import Router from "vue-router"
-import main from "../components/main.vue"
+import main from "../components/layout/main.vue"
 Vue.use(Router)
 
 // 解决首页路由跳转的时候同一个路由多次添加，未跳转完成就重复跳转
@@ -28,11 +28,17 @@ export default new Router ({
 					name:"homepage",
 					component:() => import("@/views/index"),
 					meta:{
-						name:"主页",
-						icon:"el-icon-zhuye",
-						type:"list"
+						name:"主页"
 					}
-				},
+                },
+                {
+                    path: "/index/foodDetail",
+                    name: "foodDetail",
+                    component:() => import("@/views/food/foodDetail"),
+                    meta: {
+                        name: "美食详情"
+                    }
+                },
             ]
         }
     ]

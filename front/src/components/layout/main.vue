@@ -7,20 +7,15 @@
       <el-main>
         <router-view></router-view>
       </el-main>
-      <el-footer>
-        <Footer></Footer>
-      </el-footer>
     </el-container>
   </div>
 </template>
 
 <script>
-import Header from "./layout/header"
-import Footer from "./layout/footer"
+import Header from "./header.vue"
 export default {
   components: {
-    Header,
-    Footer
+    Header
   }
 };
 </script>

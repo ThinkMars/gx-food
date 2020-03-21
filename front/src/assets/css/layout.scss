@@ -1,0 +1,56 @@
+.el-container.layout{
+	min-height: 100vh;
+}
+.el-container.is-vertical{
+	height: 100vh;
+    overflow: auto;
+    margin: auto 10%
+}
+.el-header {
+    // height: 70px !important;
+    header {
+        .header-logo {
+            line-height: 70px;
+            background-color: black;
+            float: left;
+            img {
+                width: 100px;
+                height: 70px;
+                vertical-align: middle;
+            }
+        }
+        .el-menu {
+            background-color: #ffcc66;
+            margin-left: 100px;
+            border: none;
+            .el-menu-item {
+                line-height: 70px;
+                font-size: 16px;
+                text-align: center;
+                margin-left: 30px;
+            }
+            .el-avatar--icon {
+                position: absolute;
+                top: 15px;
+                right: 30px;
+            }
+        }
+    }
+    
+}
+.el-main {
+    .main-content {
+        .title {
+            margin: 15px 0;
+        }
+        .content-carousel {
+
+        }
+        .content-recommend {
+
+        }
+    }
+}
+.el-footer {
+
+}
