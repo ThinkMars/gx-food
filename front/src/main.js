@@ -1,6 +1,11 @@
 import Vue from 'vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 import App from './App.vue'
 import router from './router/index.js'
+
+Vue.use(VueAxios, axios)
+
 
 import "./plugins/element.js"
 import "./assets/css/main.scss"

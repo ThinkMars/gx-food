@@ -7,7 +7,7 @@
     margin: auto 10%
 }
 .el-header {
-    // height: 70px !important;
+    height: 70px !important;
     header {
         .header-logo {
             line-height: 70px;
@@ -39,12 +39,26 @@
     
 }
 .el-main {
+    padding: 10px 20px;
     .main-content {
         .title {
             margin: 15px 0;
         }
+        // 主页轮播图
         .content-carousel {
-
+            .el-carousel__item h3 {
+                color: #475669;
+                font-size: 18px;
+                opacity: 0.75;
+                line-height: 400px;
+                margin: 0;
+            }
+            .el-carousel__item:nth-child(2n) {
+                background-color: #99a9bf;
+            }
+            .el-carousel__item:nth-child(2n + 1) {
+                background-color: #d3dce6;
+            }
         }
         .content-recommend {
 

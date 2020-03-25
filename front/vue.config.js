@@ -32,7 +32,7 @@ module.exports = {
         }
     },
     //
-    lintOnSave: process.env.NODE_ENV === "production", // 是否保存时limt代码
+    lintOnSave: process.env.NODE_ENV === "production", // 是否取消eslint验证
     runtimeCompiler: true, //是否使用编译器
 
     productionSourceMap: false,
@@ -46,12 +46,14 @@ module.exports = {
         compress: true,
         disableHostCheck: true,
         proxy: {
-            '/api': {
-                target: "<url>", // 目标接口
+            '/api': { // 遇到/api时会在前面加上target
+                target: "https://way.jd.com", // api目标接口
+                // target: "http://localhost:3000/",
                 ws: true,
-                changeOrigin: true,
+                secure:false, // 如果是https接口，需要配置这个参数
+                changeOrigin: true, // 是否跨域
                 pathRewrite: {
-                    '/api': '/'
+                    '/api': ''// 将/api去掉
                 }
             }
         }

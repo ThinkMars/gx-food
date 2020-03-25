@@ -10,7 +10,7 @@
       active-text-color="none"
       @select="handleSelect"
     >
-      <el-menu-item index="1">首页</el-menu-item>
+      <el-menu-item index="1" @click.native="handleJump('homepage')">首页</el-menu-item>
       <el-menu-item index="2">美食推荐</el-menu-item>
       <el-menu-item index="3">美食故事</el-menu-item>
       <el-menu-item index="4">联系</el-menu-item>
@@ -32,6 +32,9 @@ export default {
   methods: {
     handleSelect(key, path) {
       console.log(key, path);
+    },
+    handleJump(path) {
+      this.$router.push({name: path})
     }
   }
 };

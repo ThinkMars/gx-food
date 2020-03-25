@@ -3,14 +3,14 @@
     <el-tab-pane v-for="(city, index) in cities" :key="index" :label="city" :name="city">
       {{ city }}
       <el-row :gutter="20">
-        <el-col :span="6" v-for="(o, index) in 4" :key="o">
-          <el-card @click.native="handleJump(index ,city)">
+        <el-col :span="6" v-for="(food, index) in foodList" :key="index">
+          <el-card @click.native="handleJump(index, city, food)">
             <img
-              src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+              :src="food.img"
               class="image"
             />
             <div class="detail">
-              <span class="name">好吃的汉堡</span>
+              <span class="name">{{ food.cname }}</span>
               <!-- <div class="bottom clearfix">
                 <el-button type="text" class="button">
                   动手制作美食
@@ -46,6 +46,24 @@ export default {
         "河池市",
         "来宾市",
         "崇左市"
+      ],
+      foodList:[
+        {
+          cname:"西红柿炒番茄",
+          img:"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+        },
+        {
+          cname:"好吃的汉堡",
+          img:"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+        },
+        {
+          cname:"好吃的汉堡",
+          img:"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+        },
+        {
+          cname:"好吃的汉堡",
+          img:"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+        }
       ]
     };
   },
@@ -53,11 +71,11 @@ export default {
     handleClick(tab, event) {
       console.log(tab, event);
     },
-    handleJump(index,city) {
-      console.log(this);
+    handleJump(index, city, food) {
+      console.log(food);
       this.$router.push({
         name: "foodDetail",
-        query: { id: index, city:city }
+        query: { id: index, city:city, cname: food.cname }
       });
     }
   }

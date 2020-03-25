@@ -8,7 +8,7 @@
         </el-carousel-item>
       </el-carousel>
     </div>
-    
+
     <!-- 美食推荐模块 -->
     <div class="content-recommend" index="2">
       <h2 class="title">美食推荐</h2>
@@ -32,7 +32,7 @@
 <script>
 import FoodList from "./food/foodList.vue";
 import FoodStory from "./story/foodStory.vue";
-import Footer from "./footer"
+import Footer from "./footer";
 export default {
   components: {
     FoodList,
@@ -44,23 +44,17 @@ export default {
       value: true
     };
   },
-  methods: {}
+  methods: {
+  },
+  mounted() {
+    this.axios.get("/api/jisuapi/search?keyword=西红柿炒鸡蛋&num=1&appkey=1d5b6011908168f74182bb5e410b36a6").then((res) => {
+      console.log(res)
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 18px;
-  opacity: 0.75;
-  line-height: 400px;
-  margin: 0;
-}
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
-}
-
 </style>
