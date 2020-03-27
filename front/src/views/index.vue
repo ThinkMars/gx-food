@@ -47,7 +47,7 @@ export default {
   methods: {
   },
   mounted() {
-    this.axios.get("/api/jisuapi/search?keyword=西红柿炒鸡蛋&num=1&appkey=1d5b6011908168f74182bb5e410b36a6").then((res) => {
+    this.axios.get("/foodDetail/jisuapi/search?keyword=西红柿炒鸡蛋&num=1&appkey=1d5b6011908168f74182bb5e410b36a6").then((res) => {
       console.log(res)
     }).catch((err) => {
       console.log(err)

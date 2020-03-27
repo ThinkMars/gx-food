@@ -1,13 +1,33 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
 
-var app = express();
+const userRouter = require('./api/userAPI');
+const foodRouter = require('./api/foodAPI');
+const storyRouter = require('./api/storyAPI');
+const commentRouter = require('./api/commentAPI');
+
+const app = express();
+
+// app.all('*', (req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', 'http://localhost:8090');
+//   //Access-Control-Allow-Headers ,可根据浏览器的F12查看,把对应的粘贴在这里就行
+//   res.header('Access-Control-Allow-Headers', 'Content-Type');
+//   res.header('Access-Control-Allow-Methods', '*');
+//   res.header('Content-Type', 'application/json;charset=utf-8');
+//   next();
+// });
+
+// 跨域
+const cors = require('cors');
+app.use(cors({
+  origin:['http://localhost:8090'],  //指定接收的地址
+  methods:['GET','POST'],  //指定接收的请求类型
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -20,7 +40,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+
+app.use('/user', userRouter);
+app.use('/food', foodRouter);
+app.use('/story', storyRouter);
+app.use('/comment', commentRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
