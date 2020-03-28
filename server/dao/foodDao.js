@@ -23,7 +23,7 @@ function deleteFood(params, success) {
 };
 
 // 查询精选菜谱
-function queryFood(params) {
+function queryFood(params, success) {
     const connection = dbutil.createConnection();
     let querySql = 'select * from foods order by id desc limit ?;'
     connection.query(querySql, params, (error, results) => {
@@ -34,7 +34,7 @@ function queryFood(params) {
 };
 
 // 修改精选菜谱
-function alertFood(params) {
+function alertFood(params, success) {
     const connection = dbutil.createConnection();
     let querySql = 'update foods set fname=?, img=?, details=?;'
     connection.query(querySql, params, (error, results) => {
