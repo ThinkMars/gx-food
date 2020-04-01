@@ -27,7 +27,7 @@ export default {};
 <style lang="scss" scoped>
 .content-link {
   height: 130px;
-  background-color: #ffcc66;
+  background-color: $bg-color;
   padding: 10px 0;
   overflow: hidden;
   .chat {
@@ -48,7 +48,7 @@ export default {};
 .footer {
   height: 50px;
   color: #333300;
-  background-color: #ffcc66;
+  background-color: $bg-color;
   display: flex;
   p {
     margin: auto;

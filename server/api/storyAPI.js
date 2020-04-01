@@ -4,7 +4,7 @@ const storyDao = require('../dao/storyDao');
 
 // 加载故事
 router.get('/getStory', (req, res, next) => {
-    let params = [num] = [req.query.num];
+    let params = [num] = [parseInt(req.query.num)];
     storyDao.queryStory(params, (result) => {
         if(result == null || result.length == 0) {
             res.json({status: 'error', msg: "加载失败"});
@@ -16,7 +16,9 @@ router.get('/getStory', (req, res, next) => {
 
 // 添加故事
 router.post('/addStory', (req, res, next) => {
-    let params = [createdTime, title, abstract, content] = [req.query.createdTime, req.query.title, req.query.abstract, req.query.content];
+    console.log(req.body);
+    
+    let params = [createdTime, title, abstract, content] = [req.body.createdTime, req.body.title, req.body.abstract, req.body.content];
     storyDao.insertStory(params, (result) => {
         if(result == null || result.length == 0) {
             res.json({status: 'error', msg: "添加故事失败"});
@@ -28,7 +30,7 @@ router.post('/addStory', (req, res, next) => {
 
 // 删除故事
 router.post('/removeStory', (req, res, next) => {
-    let params = [id] = [req.query.id];
+    let params = [id] = [req.body.id];
     storyDao.deleteStory(params, (result) => {
         if(result == null || result.length == 0) {
             res.json({status: 'error', msg: "删除失败"});
@@ -40,7 +42,7 @@ router.post('/removeStory', (req, res, next) => {
 
 // 修改故事
 router.post('/alertStory', (req, res, next) => {
-    let params = [title, abstract, content] = [req.query.title, req.query.abstract, req.query.content];
+    let params = [title, abstract, content] = [req.body.title, req.body.abstract, req.body.content];
     storyDao.alertStory(params, (result) => {
         if(result == null || result.length == 0) {
             res.json({status: 'error', msg: "修改故事失败"});

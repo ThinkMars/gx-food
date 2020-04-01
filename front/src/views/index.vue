@@ -2,9 +2,10 @@
   <div class="main-content">
     <!-- 轮播图 -->
     <div class="content-carousel">
-      <el-carousel indicator-position="outside" height="400px">
+      <el-carousel indicator-position="outside" height="500px">
         <el-carousel-item v-for="item in 4" :key="item">
-          <h3>{{ item }}</h3>
+          <!-- <h3>{{ item }}</h3> -->
+          <img :src="img" alt="" :style="{width: '100%', height: '100%'}">
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -41,17 +42,13 @@ export default {
   },
   data() {
     return {
-      value: true
+      value: true,
+      img: "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
     };
   },
   methods: {
   },
   mounted() {
-    this.axios.get("/foodDetail/jisuapi/search?keyword=西红柿炒鸡蛋&num=1&appkey=1d5b6011908168f74182bb5e410b36a6").then((res) => {
-      console.log(res)
-    }).catch((err) => {
-      console.log(err)
-    })
   }
 };
 </script>

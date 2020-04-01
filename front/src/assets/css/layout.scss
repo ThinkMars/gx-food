@@ -20,7 +20,7 @@
             }
         }
         .el-menu {
-            background-color: #ffcc66;
+            background-color: $bg-color;
             margin-left: 100px;
             border: none;
             .el-menu-item {
@@ -29,7 +29,12 @@
                 text-align: center;
                 margin-left: 30px;
             }
-            .el-avatar--icon {
+            // .el-avatar--icon {
+            //     position: absolute;
+            //     top: 15px;
+            //     right: 30px;
+            // }
+            .avatar-icon {
                 position: absolute;
                 top: 15px;
                 right: 30px;

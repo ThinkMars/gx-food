@@ -20,7 +20,6 @@ export default new Router ({
             redirect:"/index",
             meta:{
 				name:"主页",
-				icon:"el-icon-zhuye" // 显示的图标
             },
             children:[
                 {
@@ -28,7 +27,7 @@ export default new Router ({
 					name:"homepage",
 					component:() => import("@/views/index"),
 					meta:{
-						name:"主页"
+						name:"主页主区"
 					}
                 },
                 {
@@ -37,6 +36,14 @@ export default new Router ({
                     component:() => import("@/views/food/foodDetail"),
                     meta: {
                         name: "美食详情"
+                    }
+                },
+                {
+                    path: "/index/storyDetail",
+                    name: "storyDetail",
+                    component:() => import("@/views/story/storyDetail"),
+                    meta: {
+                        name: "故事详情"
                     }
                 },
             ]
