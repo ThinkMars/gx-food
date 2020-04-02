@@ -5,7 +5,7 @@
       <el-carousel indicator-position="outside" height="500px">
         <el-carousel-item v-for="item in 4" :key="item">
           <!-- <h3>{{ item }}</h3> -->
-          <img :src="img" alt="" :style="{width: '100%', height: '100%'}">
+          <img :src="img" alt="" :style="{ width: '100%', height: '100%' }">
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -14,6 +14,7 @@
     <div class="content-recommend" index="2">
       <h2 class="title">美食推荐</h2>
       <food-list></food-list>
+      <router-view></router-view>
     </div>
 
     <!-- 广西美食故事模块 -->

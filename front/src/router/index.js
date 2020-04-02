@@ -28,7 +28,7 @@ export default new Router ({
 					component:() => import("@/views/index"),
 					meta:{
 						name:"主页主区"
-					}
+                    }
                 },
                 {
                     path: "/index/foodDetail",
@@ -45,7 +45,7 @@ export default new Router ({
                     meta: {
                         name: "故事详情"
                     }
-                },
+                }
             ]
         }
     ]

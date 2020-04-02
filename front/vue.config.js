@@ -46,14 +46,13 @@ module.exports = {
         compress: true,
         disableHostCheck: true,
         proxy: {
-            '/foodDetail': { // 遇到/api时会在前面加上target
+            '/api': { // 遇到/api时会在前面加上target
                 target: "https://way.jd.com", // api目标接口
-                // target: "http://localhost:3000/",
                 ws: true,
                 secure:false, // 如果是https接口，需要配置这个参数
                 changeOrigin: true, // 是否跨域
                 pathRewrite: {
-                    '/foodDetail': ''// 将/api去掉
+                    '/api': ''// 将/api去掉
                 }
             }
         }

@@ -18,6 +18,7 @@
         <el-button type="primary" @click="submitForm('formInfo')">提交</el-button>
         <el-button @click="resetForm('formInfo')">重置</el-button>
       </el-form-item>
+      <el-button @click="handleClose">点击关闭</el-button>
     </el-form>
   </div>
 </template>
@@ -53,6 +54,10 @@ export default {
     };
   },
   methods: {
+    // 触发父组件事件
+    handleClose() {
+      this.$emit("login")
+    },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {

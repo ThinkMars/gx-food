@@ -4,19 +4,10 @@
       {{ city }}
       <el-row :gutter="20">
         <el-col :span="6" v-for="(food, index) in foodList" :key="index">
-          <el-card @click.native="handleJump(index, city, food)">
-            <img
-              :src="food.img"
-              class="image"
-            />
+          <el-card @click.native="handleJump()">
+            <img :src="food.img" class="image" />
             <div class="detail">
               <span class="name">{{ food.cname }}</span>
-              <!-- <div class="bottom clearfix">
-                <el-button type="text" class="button">
-                  动手制作美食
-                  <i class="el-icon-arrow-right"></i>
-                </el-button>
-              </div> -->
             </div>
           </el-card>
         </el-col>
@@ -47,22 +38,26 @@ export default {
         "来宾市",
         "崇左市"
       ],
-      foodList:[
+      foodList: [
         {
-          cname:"西红柿炒番茄",
-          img:"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+          cname: "西红柿炒番茄",
+          img:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
         },
         {
-          cname:"好吃的汉堡",
-          img:"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+          cname: "好吃的汉堡",
+          img:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
         },
         {
-          cname:"好吃的汉堡",
-          img:"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+          cname: "好吃的汉堡",
+          img:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
         },
         {
-          cname:"好吃的汉堡",
-          img:"https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+          cname: "好吃的汉堡",
+          img:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
         }
       ]
     };
@@ -71,11 +66,9 @@ export default {
     handleClick(tab, event) {
       console.log(tab, event);
     },
-    handleJump(index, city, food) {
-      console.log(food);
+    handleJump() {
       this.$router.push({
-        name: "foodDetail",
-        query: { id: index, city:city, cname: food.cname }
+        name: "foodDetail"
       });
     }
   }

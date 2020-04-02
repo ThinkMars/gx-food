@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="header-logo">
-      <img :src="url" alt="广西美食网" />
+      <img :src="logoUrl" alt="广西美食网" />
     </div>
     <el-menu
       class="el-menu-demo"
@@ -11,12 +11,12 @@
       @select="handleSelect"
     >
       <el-menu-item index="1" @click.native="handleJump('homepage')">首页</el-menu-item>
-      <el-menu-item index="2">美食推荐</el-menu-item>
+      <!-- <el-menu-item index="2">美食推荐</el-menu-item>
       <el-menu-item index="3">美食故事</el-menu-item>
       <el-menu-item index="4">联系</el-menu-item>
-      <el-menu-item index="5">管理员</el-menu-item>
-      <div class="avatar-icon" @click="login">
-        <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+      <el-menu-item index="5">管理员</el-menu-item> -->
+      <div class="avatar-icon" @click="handleOpen">
+        <el-avatar :src="avatarUrl"></el-avatar>
       </div>
       <el-dialog :visible.sync="centerDialogVisible" width="35%" center>
         <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
@@ -24,7 +24,7 @@
             <register></register>
           </el-tab-pane>
           <el-tab-pane label="登录" name="register">
-            <login></login>
+            <login @login="login"></login>
           </el-tab-pane>
         </el-tabs>
       </el-dialog>
@@ -44,8 +44,8 @@ export default {
     return {
       activeName: "login",
       centerDialogVisible: false,
-      url:
-        "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
+      logoUrl: "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
+      avatarUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
     };
   },
   methods: {
@@ -53,11 +53,17 @@ export default {
       console.log(key, path);
     },
     handleJump(path) {
-      this.$router.push({ name: path });
+      this.$router.push({ 
+        name: path 
+      });
+    },
+    handleOpen() {
+      this.centerDialogVisible = !this.centerDialogVisible
     },
     login() {
-      //   console.log("login");
+      console.log("login");
       this.centerDialogVisible = !this.centerDialogVisible;
+      this.avatarUrl = "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
     },
     handleClick(tab, event) {
       //   console.log(tab, event);

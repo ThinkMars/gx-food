@@ -35,7 +35,10 @@ export default {
   },
   methods: {
     handleJump() {
-      console.log(123);
+      // console.log(123);
+      this.$router.push({
+        name: "storyDetail"
+      })
     }
   }
 };
