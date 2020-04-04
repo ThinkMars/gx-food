@@ -10,7 +10,7 @@ Router.prototype.push = function push (to) {
 }
 
 export default new Router ({
-    mode:"history",
+    mode:"history", // 打包后打不开，这里有点问题
     base:process.env.BASE_URL,
     routes:[
         {
@@ -44,6 +44,14 @@ export default new Router ({
                     component:() => import("@/views/story/storyDetail"),
                     meta: {
                         name: "故事详情"
+                    }
+                },
+                {
+                    path: "/index/management",
+                    name: "management",
+                    component: () => import("@/views/management/managementView"),
+                    meta: {
+                        name: "管理员界面"
                     }
                 }
             ]

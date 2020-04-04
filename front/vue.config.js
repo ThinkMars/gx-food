@@ -1,7 +1,6 @@
 module.exports = {
     publicPath: "/", //根路径
     outputDir: "dist", //打包目录
-
     indexPath: "index.html", //生成的html路径
     filenameHashing: true, //生成文件名中包含hash
 

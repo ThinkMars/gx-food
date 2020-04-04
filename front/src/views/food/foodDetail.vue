@@ -200,7 +200,7 @@ export default {
   .process {
     padding: 0 10%;
     .process-li {
-      height: 300px;
+      height: 350px;
       padding: 40px 0;
       .pcontent {
         width: 50%;

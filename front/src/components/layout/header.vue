@@ -13,8 +13,8 @@
       <el-menu-item index="1" @click.native="handleJump('homepage')">首页</el-menu-item>
       <!-- <el-menu-item index="2">美食推荐</el-menu-item>
       <el-menu-item index="3">美食故事</el-menu-item>
-      <el-menu-item index="4">联系</el-menu-item>
-      <el-menu-item index="5">管理员</el-menu-item> -->
+      <el-menu-item index="4">联系</el-menu-item> -->
+      <el-menu-item index="5" @click.native="handleJump('management')">管理员</el-menu-item>
       <div class="avatar-icon" @click="handleOpen">
         <el-avatar :src="avatarUrl"></el-avatar>
       </div>
