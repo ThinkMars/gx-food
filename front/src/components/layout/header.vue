@@ -1,6 +1,6 @@
 <template>
   <header>
-    <div class="header-logo">
+    <div class="header-logo" @click="handleJump('homepage')">
       <img :src="logoUrl" alt="广西美食网" />
     </div>
     <el-menu
@@ -10,7 +10,7 @@
       active-text-color="none"
       @select="handleSelect"
     >
-      <el-menu-item index="1" @click.native="handleJump('homepage')">首页</el-menu-item>
+      <!-- <el-menu-item index="1" @click.native="handleJump('homepage')">首页</el-menu-item> -->
       <!-- <el-menu-item index="2">美食推荐</el-menu-item>
       <el-menu-item index="3">美食故事</el-menu-item>
       <el-menu-item index="4">联系</el-menu-item> -->
