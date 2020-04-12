@@ -4,11 +4,11 @@
     <div class="content-link">
       <div class="chat">
         <p>微信</p>
-        <img src="https://static.meishichina.com/v6/img/model/msc_app.png" alt="微信" />
+        <img src="../../assets/image/wechat.jpg" alt="微信" />
       </div>
       <div class="chat">
         <p>QQ</p>
-        <img src="https://static.meishichina.com/v6/img/footer/weixin.png" alt="QQ" />
+        <img src="../../assets/image/qq.jpg" alt="QQ" />
       </div>
       <h2 class="slogan">
         <img src alt="广西美食网" />

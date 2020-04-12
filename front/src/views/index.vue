@@ -34,7 +34,7 @@
 <script>
 import FoodList from "./food/foodList.vue";
 import FoodStory from "./story/foodStory.vue";
-import Footer from "./footer";
+import Footer from "./footer/footer.vue";
 export default {
   components: {
     FoodList,

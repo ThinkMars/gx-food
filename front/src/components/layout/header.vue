@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="header-logo" @click="handleJump('homepage')">
-      <img :src="logoUrl" alt="广西美食网" />
+      <img src="../../assets/image/logo.png" alt="广西美食网" />
     </div>
     <el-menu
       class="el-menu-demo"
@@ -10,10 +10,6 @@
       active-text-color="none"
       @select="handleSelect"
     >
-      <!-- <el-menu-item index="1" @click.native="handleJump('homepage')">首页</el-menu-item> -->
-      <!-- <el-menu-item index="2">美食推荐</el-menu-item>
-      <el-menu-item index="3">美食故事</el-menu-item>
-      <el-menu-item index="4">联系</el-menu-item> -->
       <el-menu-item index="5" @click.native="handleJump('management')">管理员</el-menu-item>
       <div class="avatar-icon" @click="handleOpen">
         <el-avatar :src="avatarUrl"></el-avatar>
@@ -44,7 +40,6 @@ export default {
     return {
       activeName: "login",
       centerDialogVisible: false,
-      logoUrl: "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
       avatarUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
     };
   },

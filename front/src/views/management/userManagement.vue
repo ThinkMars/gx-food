@@ -16,7 +16,7 @@
       <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
       <el-table-column prop="date" label="注册日期" width="180"></el-table-column>
       <el-table-column label="操作">
-        <template scope="scope">
+        <template slot-scope="scope">
           <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
