@@ -54,7 +54,8 @@ export default {
       formInfo: {
         uname: "",
         upass: "",
-        email: ""
+        email: "",
+        auth_num: 0
       },
       rules: {
         uname: [{ validator: validateUser, trigger: "blur" }],
@@ -64,15 +65,24 @@ export default {
     };
   },
   methods: {
+    // 触发父组件事件，关闭弹窗
+    handleClose() {
+      // 传递已登录状态值 1
+      this.$emit("login", 1);
+    },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.axios
-            .post("/foodDetail/user/register", this.formInfo)
+            .post("http://localhost:3000/user/register", this.formInfo)
             .then(res => {
               if (res.data.status === "success") {
-                console.log(res);
-                this.$message.success(res.data.msg);
+                // console.log(res);
+                this.handleClose();
+                this.$message.success(
+                  res.data.msg + "，" + "欢迎 " + this.formInfo.uname
+                );
+                this.formInfo = {};
               } else {
                 this.$message.error(res.data.msg);
               }

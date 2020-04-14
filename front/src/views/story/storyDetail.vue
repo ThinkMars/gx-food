@@ -8,7 +8,7 @@
       </div>
     </el-card>
     <el-card>
-      <comment></comment>
+      <comment :type="this.commentId"></comment>
     </el-card>
   </div>
 </template>
@@ -21,6 +21,7 @@ export default {
   },
   data() {
     return {
+      commentId: 1, // 评论类型
       message: {
         title: "你知道***的由来吗",
         time: "2020-04-01 20:19",

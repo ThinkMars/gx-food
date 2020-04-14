@@ -10,9 +10,6 @@
         <p>QQ</p>
         <img src="../../assets/image/qq.jpg" alt="QQ" />
       </div>
-      <h2 class="slogan">
-        <img src alt="广西美食网" />
-      </h2>
     </div>
     <div class="footer">
       <p>@Copyright 2020 Design by shuangcheng</p>

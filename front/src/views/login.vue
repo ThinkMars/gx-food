@@ -18,7 +18,6 @@
         <el-button type="primary" @click="submitForm('formInfo')">提交</el-button>
         <el-button @click="resetForm('formInfo')">重置</el-button>
       </el-form-item>
-      <el-button @click="handleClose">点击关闭</el-button>
     </el-form>
   </div>
 </template>
@@ -54,22 +53,28 @@ export default {
     };
   },
   methods: {
-    // 触发父组件事件
+    // 触发父组件Header事件，关闭弹窗
     handleClose() {
-      this.$emit("login")
+      this.$emit("login", 1);
     },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           // 请求登录接口
-          this.axios.post("/foodDetail/user/login", this.formInfo).then(res => {
-            if (res.data.status === "success") {
-              console.log(res);
-              this.$message.success(res.data.msg);
-            } else {
-              this.$message.error(res.data.msg);
-            }
-          });
+          this.axios
+            .post("http://localhost:3000/user/login", this.formInfo)
+            .then(res => {
+              if (res.data.status === "success") {
+                // console.log(res);
+                this.handleClose();
+                this.$message.success(
+                  res.data.msg + "，" + "欢迎 " + this.formInfo.uname
+                );
+                this.formInfo = {};
+              } else {
+                this.$message.error(res.data.msg);
+              }
+            });
         } else {
           this.$message.error("出现错误，请联系管理员！");
           console.log("error submit!!");

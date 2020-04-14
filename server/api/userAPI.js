@@ -16,7 +16,7 @@ router.post('/login', (req, res, next) => {
 
 // 注册
 router.post('/register', (req, res, next) => {
-    let params = [uname, upass, email] = [req.body.uname, req.body.upass, req.body.email];
+    let params = [uname, upass, email, Auth_num] = [req.body.uname, req.body.upass, req.body.email, req.body.auth_num];
     userDao.queryUser([req.body.uname], (result) => {
         if (result == null || result.length == 0) {
             userDao.register(params, (results) => {

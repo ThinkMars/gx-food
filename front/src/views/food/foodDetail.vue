@@ -37,7 +37,7 @@
       </div>
     </el-card>
     <el-card>
-      <comment></comment>
+      <comment :type="this.commentId"></comment>
     </el-card>
   </div>
 </template>
@@ -50,7 +50,7 @@ export default {
   },
   data() {
     return {
-      msg: "故事",
+      commentId: 0,
       // 基本信息
       info: {
         name: "西红柿炒鸡蛋",

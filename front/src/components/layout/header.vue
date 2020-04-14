@@ -17,7 +17,7 @@
       <el-dialog :visible.sync="centerDialogVisible" width="35%" center>
         <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
           <el-tab-pane label="注册" name="login">
-            <register></register>
+            <register login @login="login"></register>
           </el-tab-pane>
           <el-tab-pane label="登录" name="register">
             <login @login="login"></login>
@@ -40,7 +40,9 @@ export default {
     return {
       activeName: "login",
       centerDialogVisible: false,
-      avatarUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
+      hasLogined: false,
+      avatarUrl:
+        "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
     };
   },
   methods: {
@@ -48,17 +50,25 @@ export default {
       console.log(key, path);
     },
     handleJump(path) {
-      this.$router.push({ 
-        name: path 
+      this.$router.push({
+        name: path
       });
     },
     handleOpen() {
-      this.centerDialogVisible = !this.centerDialogVisible
+      if (!this.hasLogined) {
+        this.centerDialogVisible = !this.centerDialogVisible;
+      } else {
+        return;
+      }
     },
-    login() {
-      console.log("login");
-      this.centerDialogVisible = !this.centerDialogVisible;
-      this.avatarUrl = "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+    login(status) {
+      if (status === 1) {
+        console.log("login");
+        this.centerDialogVisible = !this.centerDialogVisible;
+        this.avatarUrl =
+          "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png";
+        this.hasLogined = !this.hasLogined;
+      }
     },
     handleClick(tab, event) {
       //   console.log(tab, event);

@@ -14,7 +14,7 @@ function insertStory (params, success) {
 // 删除故事
 function deleteStory(params, success) {
     const connection = dbutil.createConnection();
-    let deleteSql = 'delete from article where id=?;'
+    let deleteSql = 'delete from article where id=?;';
     connection.query(deleteSql, params, (error, results) => {
         if (error) throw error;
         success(results);
@@ -22,7 +22,7 @@ function deleteStory(params, success) {
     connection.end();
 };
 
-// 查找故事
+// 按数量查找故事
 function queryStory(params, success) {
     const connection = dbutil.createConnection();
     let querySql = 'select * from article order by id desc limit ?;';

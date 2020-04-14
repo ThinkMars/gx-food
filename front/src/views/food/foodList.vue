@@ -1,13 +1,13 @@
 <template>
-  <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+  <el-tabs v-model="activeName" type="card" @tab-click="handleClick" :stretch="true">
     <el-tab-pane v-for="(city, index) in cities" :key="index" :label="city" :name="city">
       {{ city }}
       <el-row :gutter="20">
         <el-col :span="6" v-for="(food, index) in foodList" :key="index">
           <el-card @click.native="handleJump()">
-            <img :src="food.img" class="image" />
+            <img :src="food.Img" class="image" />
             <div class="detail">
-              <span class="name">{{ food.cname }}</span>
+              <span class="name">{{ food.Fname }}</span>
             </div>
           </el-card>
         </el-col>
@@ -22,41 +22,27 @@ export default {
     return {
       activeName: "南宁市", // 必须为字符串类型
       currentDate: new Date(),
-      cities: [
-        "南宁市",
-        "柳州市",
-        "桂林市",
-        "梧州市",
-        "北海市",
-        "防城港市",
-        "钦州市",
-        "贵港市",
-        "玉林市",
-        "百色市",
-        "贺州市",
-        "河池市",
-        "来宾市",
-        "崇左市"
-      ],
+      cities: ["南宁市", "柳州市", "桂林市", "梧州市", "北海市"],
+      total: {},
       foodList: [
         {
-          cname: "西红柿炒番茄",
-          img:
+          Fname: "西红柿炒番茄",
+          Img:
             "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
         },
         {
-          cname: "好吃的汉堡",
-          img:
+          Fname: "好吃的汉堡",
+          Img:
             "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
         },
         {
-          cname: "好吃的汉堡",
-          img:
+          Fname: "好吃的汉堡",
+          Img:
             "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
         },
         {
-          cname: "好吃的汉堡",
-          img:
+          Fname: "好吃的汉堡",
+          Img:
             "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
         }
       ]
@@ -64,13 +50,34 @@ export default {
   },
   methods: {
     handleClick(tab, event) {
-      console.log(tab, event);
+      // console.log(tab, event);
+      this.foodList.length = 0;
+      this.foodList = this.total[this.activeName].slice(0, 4);
+      //   console.log(this.foodList);
     },
     handleJump() {
       this.$router.push({
         name: "foodDetail"
       });
+    },
+    queryFood() {
+      // let url = "http://localhost:3000"
+      this.axios
+        .post("http://localhost:3000/food/getFoodsByCity", {
+          city: this.cities
+        })
+        .then(res => {
+          // console.log(res.data.data)
+          this.total = res.data.data;
+          this.handleClick();
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
+  },
+  mounted() {
+    this.queryFood();
   }
 };
 </script>

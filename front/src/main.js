@@ -15,6 +15,12 @@ import "./assets/css/layout.scss"
 import api from "./axios/index.js"
 Vue.use(api)
 
+// 封装过滤器
+import filters from './filter/index.js'
+Object.keys(filters).forEach(key => {
+	Vue.filter(key,filters[key])
+})
+
 Vue.config.productionTip = false
 
 new Vue({

@@ -15,10 +15,10 @@
         maxlength="150"
         show-word-limit
       ></el-input>
-      <el-button @click="handleSubmit" type="warning">提交评论</el-button>
+      <el-button @click="postComment" type="warning">提交评论</el-button>
     </div>
     <div class="nav">
-      <p class="left">评论内容(2条)</p>
+      <p class="left">评论内容({{ commentsNum }})条</p>
     </div>
     <div class="comment-list">
       <ul>
@@ -26,10 +26,10 @@
           <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
           <div class="details">
             <div class="info">
-              <div class="name">{{ item.uname }}</div>
+              <div class="name">{{ item.Uname }}</div>
             </div>
-            <div class="content">{{ item.content }}</div>
-            <div class="time">{{ item.createdTime }}</div>
+            <div class="content">{{ item.Content }}</div>
+            <div class="time">{{ item.Time| timeFormat }}</div>
           </div>
         </li>
       </ul>
@@ -39,34 +39,120 @@
 </template>
 
 <script>
+import { formatTime } from "../../utils/index.js";
 export default {
+  props: {
+    type: Number
+  },
   data() {
     return {
-      textarea: "", // 评论框内容,
+      textarea: "",
+      commentsNum: "",
+      pageNum: 1,
+      pageSize: 15,
+      getMoreFlag: true, // 阻止重复点击评论按钮
       comments: [
         {
-          uname: "我爱做饭",
-          content:
+          Uname: "我爱做饭",
+          Content:
             "这道菜真好吃这道菜真好吃这道菜真好这道菜真好吃这道菜真好吃这道菜真好吃",
-          createdTime: "2020-04-01 20:19"
+          Time: "2020-04-14 16:36:24"
         },
         {
-          uname: "我爱做饭",
-          content:
+          Uname: "我爱做饭",
+          Content:
             "这道菜真好吃这道菜真好吃这道菜真好这道菜真好吃这道菜真好吃这道菜真好吃",
-          createdTime: "2020-04-01 20:19"
+          Time: formatTime(Date.now())
         }
       ]
     };
   },
   methods: {
-    handleSubmit() {
-      console.log("发表评论");
+    postComment() {
+      // 用户信息
+      const commentInfo = {
+        Type: this.type,
+        Uname: "超级管理员",
+        Content: this.textarea.trim(), // 评论框内容,
+        Time: "2020-04-14 16:36:24"
+      };
+      // 去空添加评论
+      if (commentInfo.Content.trim().length === 0) {
+        this.$message.error("评论内容不能为空");
+      } else {
+        this.axios
+          .post("http://localhost:3000/comment/addComment", commentInfo)
+          .then(res => {
+            // console.log("发表评论");
+            this.$message.success(res.data.msg);
+            this.comments.unshift(commentInfo);
+            this.textarea = "";
+            this.getTotalCommentsNum();
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
     },
+    // 加载指定数量评论
+    getCommentsByLimit() {
+      this.axios
+        .get("http://localhost:3000/comment/getComments", {
+          params: {
+            type: this.type,
+            num: 15
+          }
+        })
+        .then(res => {
+          this.comments = res.data.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    // 评论总数
+    getTotalCommentsNum() {
+      this.axios
+        .get("http://localhost:3000/comment/getCommentsNum", {
+          params: {
+            type: this.type
+          }
+        })
+        .then(res => {
+          this.commentsNum = res.data.data[0].total;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    // 加载更多评论
     getMoreComments() {
-      console.log("加载更多。。。");
-      this.$message.warning("hahah，暂时没数据呢")
+      if (this.getMoreFlag) {
+        this.axios
+          .get("http://localhost:3000/comment/getCommentByPage", {
+            params: {
+              type: this.type,
+              pageNum: this.pageNum++,
+              pageSize: this.pageSize
+            }
+          })
+          .then(res => {
+            console.log(res);
+            if (res.data.status === "success") {
+              this.comments = this.comments.concat(res.data.data);
+            } else {
+              this.getMoreFlag = !this.getMoreFlag
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
     }
+  },
+  mounted() {
+    this.getCommentsByLimit();
+    this.getTotalCommentsNum();
   }
 };
 </script>
