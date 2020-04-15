@@ -1,11 +1,11 @@
 <template>
   <el-tabs v-model="activeName" type="card" @tab-click="handleClick" :stretch="true">
     <el-tab-pane v-for="(city, index) in cities" :key="index" :label="city" :name="city">
-      {{ city }}
+      <!-- {{ city }} -->
       <el-row :gutter="20">
         <el-col :span="6" v-for="(food, index) in foodList" :key="index">
-          <el-card @click.native="handleJump()">
-            <img :src="food.Img" class="image" />
+          <el-card>
+            <img :src="food.Img" class="image"  @click="handleJump(food.S_id)" />
             <div class="detail">
               <span class="name">{{ food.Fname }}</span>
             </div>
@@ -50,24 +50,23 @@ export default {
   },
   methods: {
     handleClick(tab, event) {
-      // console.log(tab, event);
       this.foodList.length = 0;
       this.foodList = this.total[this.activeName].slice(0, 4);
-      //   console.log(this.foodList);
     },
-    handleJump() {
+    handleJump(id) {
       this.$router.push({
-        name: "foodDetail"
+        name: "foodDetail",
+        query: {
+          sid: id
+        }
       });
     },
     queryFood() {
-      // let url = "http://localhost:3000"
       this.axios
         .post("http://localhost:3000/food/getFoodsByCity", {
           city: this.cities
         })
         .then(res => {
-          // console.log(res.data.data)
           this.total = res.data.data;
           this.handleClick();
         })
@@ -88,12 +87,19 @@ export default {
   .image {
     width: 100%;
     display: block;
+    cursor: pointer;
   }
 
   .detail {
     padding: 14px;
+    text-align: center;
     .name {
-      text-align: center;
+      font-size: 14px;
+      color: #999;
+      &:hover {
+        color: #000;
+        cursor: default;
+      }
     }
     .bottom {
       margin-top: 13px;

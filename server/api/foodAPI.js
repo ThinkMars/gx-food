@@ -28,36 +28,17 @@ router.get('/getFoods', (req, res, next) => {
 
 // 检索美食，按城市分类// for循环需要解决异步问题，node执行时会重新开启一个进程处理下面的函数
 router.post('/getFoodsByCity', (req, res, next) => {
-    // const cityTotal = [];
-    // const cityGroup = req.body.city;
-    // for(let i = 0; i < cityGroup.length; i++) {
-    //     let params = cityGroup[i];
-    //     foodDao.queryTotalFoodsByCity(params, (result) => {
-    //         cityTotal.push(JSON.stringify(result));
-    //     });
-    // };
-    // console.log(cityTotal);
-
+    // 获取城市集
     const cityGroup = req.body.city;
     foodDao.queryTotalFoods((result) => {
-        // const cityTotal = {
-        //     "南宁市":[],
-        //     "桂林市":[],
-        //     "梧州市":[],
-        //     "北海市":[],
-        //     "柳州市":[]
-        // };
         const cityTotal = {};
         let newRes = JSON.parse(JSON.stringify(result));
-        // console.log(cityGroup.length);
-        // console.log(newRes.length);
-        // console.log(newRes[0].City);
-        // console.log(cityGroup[0]);
+        // 通过城市进行分类汇总
         for(let i = 0; i < cityGroup.length; i++) {
             cityTotal[cityGroup[i]] = [];
             for(let j = 0; j < newRes.length; j++) {
                 if(newRes[j].City == cityGroup[i]) {
-                    cityTotal[cityGroup[i]].unshift(newRes[j]);
+                    cityTotal[cityGroup[i]].push(newRes[j]);
                 }
             }
         };

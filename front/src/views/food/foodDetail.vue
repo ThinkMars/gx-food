@@ -30,7 +30,10 @@
       <div class="process">
         <ul>
           <li v-for="(item, index) in process" :key="index" class="process-li">
-            <p class="pcontent"><span class="number">{{ index+1 }}</span>{{ item.pcontent }}</p>
+            <p class="pcontent">
+              <span class="number">{{ index+1 }}</span>
+              <span v-html="item.pcontent">{{ item.pcontent }}</span>
+            </p>
             <img :src="item.pic" alt="步骤" class="pcocess-img" />
           </li>
         </ul>
@@ -50,7 +53,10 @@ export default {
   },
   data() {
     return {
+      // 评论类型
       commentId: 0,
+      // 菜谱id
+      sid: this.$route.query.sid,
       // 基本信息
       info: {
         name: "西红柿炒鸡蛋",
@@ -135,9 +141,38 @@ export default {
       ]
     };
   },
-  methods: {},
-  created() {},
-  mounted() {}
+  methods: {
+    getFoodDetails() {
+      if (this.sid !== null) {
+        this.axios
+          .get(
+            "/api/jisuapi/detail?id=" +
+              this.sid +
+              "&appkey=1d5b6011908168f74182bb5e410b36a6"
+          )
+          .then(res => {
+            let result = res.data.result.result;
+            this.info = {
+              name: result.name,
+              peoplenum: result.peoplenum,
+              preparetime: result.preparetime,
+              cookingtime: result.cookingtime,
+              content: result.content,
+              pic: result.pic,
+              tag: result.tag
+            };
+            this.material = result.material;
+            this.process = result.process;
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    }
+  },
+  mounted() {
+    this.getFoodDetails();
+  }
 };
 </script>
 

@@ -23,7 +23,7 @@ function deleteStory(params, success) {
 };
 
 // 按数量查找故事
-function queryStory(params, success) {
+function queryStoryLimit(params, success) {
     const connection = dbutil.createConnection();
     let querySql = 'select * from article order by id desc limit ?;';
     connection.query(querySql, params, (error, results) => {
@@ -32,6 +32,26 @@ function queryStory(params, success) {
     });
     connection.end();
 };
+// 查找故事标题
+function queryStoryTitle(params, success) {
+    const connection = dbutil.createConnection();
+    let querySql = 'select id, title, createdTime from article order by id desc limit ?;';
+    connection.query(querySql, params, (error, results) => {
+        if (error) throw error;
+        success(results);
+    });
+    connection.end();
+}
+// 按id查找故事
+function queryStoryById(params, success) {
+    const connection = dbutil.createConnection();
+    let querySql = 'select title, content from article where id=?;';
+    connection.query(querySql, params, (error, results) => {
+        if (error) throw error;
+        success(results);
+    });
+    connection.end();
+}
 
 // 修改故事
 function alertStory(params, success) {
@@ -44,7 +64,9 @@ function alertStory(params, success) {
     connection.end();
 };
 
+module.exports.queryStoryLimit = queryStoryLimit;
+module.exports.queryStoryTitle = queryStoryTitle;
+module.exports.queryStoryById = queryStoryById;
 module.exports.insertStory = insertStory;
 module.exports.deleteStory = deleteStory;
-module.exports.queryStory = queryStory;
 module.exports.alertStory = alertStory;

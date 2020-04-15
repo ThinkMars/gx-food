@@ -49,7 +49,7 @@ export default {
       textarea: "",
       commentsNum: "",
       pageNum: 1,
-      pageSize: 15,
+      pageSize: 10,
       getMoreFlag: true, // 阻止重复点击评论按钮
       comments: [
         {
@@ -83,7 +83,6 @@ export default {
         this.axios
           .post("http://localhost:3000/comment/addComment", commentInfo)
           .then(res => {
-            // console.log("发表评论");
             this.$message.success(res.data.msg);
             this.comments.unshift(commentInfo);
             this.textarea = "";

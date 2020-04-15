@@ -2,17 +2,25 @@
   <el-row :gutter="30">
     <el-col :span="12">
       <ul>
-        <li v-for="(item, index) in story" :key="index" @click="handleJump">
-          <h3 class="sub-title">{{ item }}</h3>
-          <p class="time">2020-03-21</p>
+        <li
+          v-for="(item, index) in storyLeft"
+          :key="index"
+          @click="handleJump(item.id, item.createdTime)"
+        >
+          <h3 class="sub-title">{{ item.title }}</h3>
+          <p class="time">{{ item.createdTime|timeFormat }}</p>
         </li>
       </ul>
     </el-col>
     <el-col :span="12">
       <ul>
-        <li v-for="(item, index) in story" :key="index"  @click="handleJump">
-          <h3 class="sub-title">{{ item }}</h3>
-          <p class="time">2020-03-21</p>
+        <li
+          v-for="(item, index) in storyRight"
+          :key="index"
+          @click="handleJump(item.id, item.createdTime)"
+        >
+          <h3 class="sub-title">{{ item.title }}</h3>
+          <p class="time">{{ item.createdTime|timeFormat }}</p>
         </li>
       </ul>
     </el-col>
@@ -23,23 +31,94 @@
 export default {
   data() {
     return {
-      story: [
-        "你知道螺蛳粉的由来吗",
-        "你知道螺蛳粉的由来吗",
-        "你知道螺蛳粉的由来吗",
-        "你知道螺蛳粉的由来吗",
-        "你知道螺蛳粉的由来吗"
+      storyLeft: [
+        {
+          id: 1,
+          title: "你知道螺蛳粉的由来吗",
+          createdTime: Date.now()
+        },
+        {
+          id: 1,
+          title: "你知道螺蛳粉的由来吗",
+          createdTime: Date.now()
+        },
+        {
+          id: 1,
+          title: "你知道螺蛳粉的由来吗",
+          createdTime: Date.now()
+        },
+        {
+          id: 1,
+          title: "你知道螺蛳粉的由来吗",
+          createdTime: Date.now()
+        },
+        {
+          id: 1,
+          title: "你知道螺蛳粉的由来吗",
+          createdTime: Date.now()
+        }
       ],
-      currentDate: new Date()
-    }
+      storyRight: [
+        {
+          id: 1,
+          title: "你知道螺蛳粉的由来吗",
+          createdTime: Date.now()
+        },
+        {
+          id: 1,
+          title: "你知道螺蛳粉的由来吗",
+          createdTime: Date.now()
+        },
+        {
+          id: 1,
+          title: "你知道螺蛳粉的由来吗",
+          createdTime: Date.now()
+        },
+        {
+          id: 1,
+          title: "你知道螺蛳粉的由来吗",
+          createdTime: Date.now()
+        },
+        {
+          id: 1,
+          title: "你知道螺蛳粉的由来吗",
+          createdTime: Date.now()
+        }
+      ]
+    };
   },
   methods: {
-    handleJump() {
-      // console.log(123);
+    handleJump(id, time) {
+      // 跳转到详情
       this.$router.push({
-        name: "storyDetail"
-      })
+        name: "storyDetail",
+        query: {
+          id: id,
+          time: time
+        }
+      });
+    },
+    getStoryTitle() {
+      this.axios
+        .get("http://localhost:3000/story/getStoryTitle")
+        .then(res => {
+          let data = res.data.data;
+          let length = data.length;
+          for (let i = 0; i < length; i++) {
+            if (data[i].createdTime === null) {
+              data[i].createdTime = Date.now();
+            }
+          }
+          this.storyLeft = data.slice(0, 5);
+          this.storyRight = data.slice(5, data.length + 1);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
+  },
+  mounted() {
+    this.getStoryTitle();
   }
 };
 </script>

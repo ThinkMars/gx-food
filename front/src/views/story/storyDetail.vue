@@ -3,8 +3,8 @@
     <el-card>
       <div class="content">
         <p class="title">{{ this.message.title }}</p>
-        <p class="time">时间：{{ this.message.time }}</p>
-        <div class="story">{{ this.message.content }}</div>
+        <p class="time">时间：{{ this.message.time|timeFormat }}</p>
+        <div class="story" v-html="this.message.content"></div>
       </div>
     </el-card>
     <el-card>
@@ -22,6 +22,8 @@ export default {
   data() {
     return {
       commentId: 1, // 评论类型
+      id: this.$route.query.id,
+      time: this.$route.query.time*1,
       message: {
         title: "你知道***的由来吗",
         time: "2020-04-01 20:19",
@@ -31,23 +33,27 @@ export default {
     };
   },
   methods: {
-    // getStory() {
-    //   this.axios
-    //     .get("localhost:3000/story/getStory", {
-    //       params: {
-    //         num: 5
-    //       }
-    //     })
-    //     .then(res => {
-    //       console.log(res);
-    //     })
-    //     .catch(err => {
-    //       console.log(err);
-    //     });
-    // }
+    getStory() {
+      this.axios
+        .post("http://localhost:3000/story/getStoryById", {
+          id: this.id
+        })
+        .then(res => {
+          let data = res.data.data[0];
+          const message = {
+            title: data.title,
+            time: this.time,
+            content: data.content
+          }
+          this.message = message
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   },
   mounted() {
-    // this.getStory()
+    this.getStory()
   }
 };
 </script>
