@@ -6,7 +6,7 @@ function createConnection() {
         user: 'root',
         password: '123456',
         database: 'gxfood',
-        connectionLimit:15
+        connectionLimit:30
     });
     return connection;
 }

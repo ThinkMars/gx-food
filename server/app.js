@@ -6,10 +6,10 @@ const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
 
-const userRouter = require('./api/userAPI');
-const foodRouter = require('./api/foodAPI');
-const storyRouter = require('./api/storyAPI');
-const commentRouter = require('./api/commentAPI');
+const userAPI = require('./api/userAPI');
+const foodAPI = require('./api/foodAPI');
+const storyAPI = require('./api/storyAPI');
+const commentAPI = require('./api/commentAPI');
 
 const app = express();
 
@@ -27,7 +27,6 @@ app.use(cors({
   origin:['http://localhost:8090'],  //指定接收的地址
   methods:['GET','POST'],  //指定接收的请求类型
 }));
-// app.options("*", cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -41,10 +40,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 
-app.use('/user', userRouter);
-app.use('/food', foodRouter);
-app.use('/story', storyRouter);
-app.use('/comment', commentRouter);
+app.use('/user', userAPI);
+app.use('/food', foodAPI);
+app.use('/story', storyAPI);
+app.use('/comment', commentAPI);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

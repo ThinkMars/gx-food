@@ -3,9 +3,10 @@
     <!-- 轮播图 -->
     <div class="content-carousel">
       <el-carousel indicator-position="outside" height="500px">
-        <el-carousel-item v-for="item in 4" :key="item">
+        <el-carousel-item v-for="(item, index) in bannerList" :key="index">
           <!-- <h3>{{ item }}</h3> -->
-          <img :src="img" alt="" :style="{ width: '100%', height: '100%' }">
+          <img :src="item.Img" alt="" :style="{ width: '100%', height: '100%' }" fit="cover">
+          <!-- <el-image style="width: 100%; height: 100%" :src="item.Img" fit="fill"></el-image> -->
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -44,12 +45,47 @@ export default {
   data() {
     return {
       value: true,
-      img: "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+      // img:
+      //   "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+      bannerList: [
+        {
+          name: "汉堡包",
+          img:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+        },
+        {
+          name: "汉堡包",
+          img:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+        },
+        {
+          name: "汉堡包",
+          img:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+        },
+        {
+          name: "汉堡包",
+          img:
+            "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+        }
+      ]
     };
   },
   methods: {
+    getLunbotu() {
+      this.axios
+        .get("http://localhost:3000/food/getLunbotu")
+        .then(res => {
+          let result = res.data.data;
+          this.bannerList = result;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   },
-  mounted() {
+  created() {
+    this.getLunbotu();
   }
 };
 </script>

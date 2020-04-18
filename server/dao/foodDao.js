@@ -47,13 +47,23 @@ function queryTotalFoods(success) {
 // 按城市查询美食
 function queryTotalFoodsByCity(params, success) {
     const connection = dbutil.createConnection();
-    let querySql = 'select * from foods where city = ?';
+    let querySql = 'select * from foods where city = ?;';
     connection.query(querySql, params, (error, results) => {
         if (error) throw error;
         success(results);
     });
     connection.end();
-}
+};
+// 按照详情查找图片
+function queryFoodsByDetails(success) {
+    const connection = dbutil.createConnection();
+    let querySql = 'select * from foods where details = "banner";';
+    connection.query(querySql, (error, results) => {
+        if (error) throw error;
+        success(results);
+    });
+    connection.end();
+};
 
 // 修改精选菜谱
 function alertFood(params, success) {
@@ -72,3 +82,4 @@ module.exports.queryFood = queryFood;
 module.exports.alertFood = alertFood;
 module.exports.queryTotalFoods = queryTotalFoods;
 module.exports.queryTotalFoodsByCity = queryTotalFoodsByCity;
+module.exports.queryFoodsByDetails = queryFoodsByDetails;
