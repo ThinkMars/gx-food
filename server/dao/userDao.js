@@ -3,7 +3,7 @@ const dbutil = require('../utils/DButil');
 // 登录
 function checkLogin(params, success) {
     const connection = dbutil.createConnection();
-    let querySql = 'select id from account where uname=? and upass=md5(?);'
+    let querySql = 'select uname, auth_num from account where uname=? and upass=md5(?);'
     connection.query(querySql, params, (error, results) => {
         if (error) throw error;
         success(results);

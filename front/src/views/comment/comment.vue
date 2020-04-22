@@ -6,7 +6,8 @@
     </h3>
     <div class="pushlish">
       <div class="avater">
-        <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+        <!-- <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar> -->
+        <el-avatar :src="avatarUrl"></el-avatar>
       </div>
       <el-input
         type="textarea"
@@ -40,6 +41,7 @@
 
 <script>
 import { formatTime } from "../../utils/index.js";
+import { mapGetters } from "vuex";
 export default {
   props: {
     type: Number
@@ -51,6 +53,8 @@ export default {
       pageNum: 1,
       pageSize: 10,
       getMoreFlag: true, // 阻止重复点击评论按钮
+      // avatarUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
+      // avatarUrl: this.userInfo.avatar,
       comments: [
         {
           Uname: "我爱做饭",
@@ -67,36 +71,54 @@ export default {
       ]
     };
   },
+  computed: {
+    ...mapGetters(["userInfo"]),
+    avatarUrl: function() {
+      return (
+        this.userInfo.avatar ||
+        "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
+      );
+    }
+  },
   methods: {
     postComment() {
       // 用户信息
-      const commentInfo = {
-        Type: this.type,
-        Uname: "超级管理员",
-        Content: this.textarea.trim(), // 评论框内容,
-        Time: "2020-04-14 16:36:24"
-      };
-      // 去空添加评论
-      if (commentInfo.Content.trim().length === 0) {
-        this.$message.error("评论内容不能为空");
-      } else {
-        this.axios
-          .post("http://localhost:3000/comment/addComment", commentInfo)
-          .then(res => {
-            this.$message.success(res.data.msg);
-            this.comments.unshift(commentInfo);
-            this.textarea = "";
-            this.getTotalCommentsNum();
-          })
-          .catch(err => {
-            console.log(err);
-          });
+
+      if (this.userInfo.uname) { // 用户存在才能评论
+        const commentInfo = {
+          Type: this.type,
+          Uname: this.userInfo.uname,
+          Content: this.textarea.trim(), // 评论框内容,
+          Time: formatTime(Date.now())
+        };
+        // 去空添加评论
+        if (commentInfo.Content.trim().length === 0) {
+          this.$message.error("评论内容不能为空");
+        } else {
+          this.axios
+            .post("/api/comment/addComment", commentInfo)
+            .then(res => {
+              if (res.data.status == "error") {
+                this.$message.error(res.data.msg);
+              } else {
+                this.$message.success(res.data.msg);
+                this.comments.unshift(commentInfo);
+                this.textarea = "";
+                this.getTotalCommentsNum();
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        }
+      }else {
+        this.$message.error("需要登录才能评论哦")
       }
     },
     // 加载指定数量评论
     getCommentsByLimit() {
       this.axios
-        .get("http://localhost:3000/comment/getComments", {
+        .get("/api/comment/getComments", {
           params: {
             type: this.type,
             num: 15
@@ -112,7 +134,7 @@ export default {
     // 评论总数
     getTotalCommentsNum() {
       this.axios
-        .get("http://localhost:3000/comment/getCommentsNum", {
+        .get("/api/comment/getCommentsNum", {
           params: {
             type: this.type
           }
@@ -128,7 +150,7 @@ export default {
     getMoreComments() {
       if (this.getMoreFlag) {
         this.axios
-          .get("http://localhost:3000/comment/getCommentByPage", {
+          .get("/api/comment/getCommentByPage", {
             params: {
               type: this.type,
               pageNum: this.pageNum++,
@@ -136,11 +158,11 @@ export default {
             }
           })
           .then(res => {
-            console.log(res);
+            // console.log(res);
             if (res.data.status === "success") {
               this.comments = this.comments.concat(res.data.data);
             } else {
-              this.getMoreFlag = !this.getMoreFlag
+              this.getMoreFlag = !this.getMoreFlag;
             }
           })
           .catch(err => {

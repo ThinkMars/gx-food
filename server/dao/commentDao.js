@@ -40,6 +40,7 @@ function queryTotalNum(params, success) {
         if (error) throw error;
         success(results);
     })
+    connection.end();
 };
 // 分页查询
 function queryCommentByPage(params, success) {
@@ -48,7 +49,8 @@ function queryCommentByPage(params, success) {
     connection.query(querySql, params, (error, results) => {
         if (error) throw error;
         success(results);
-    })
+    });
+    connection.end();
 }
 
 module.exports.insertComment = insertComment;

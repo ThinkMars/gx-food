@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const foodDao = require('../dao/foodDao');
 const async = require('async');
+const request = require("request");
 
 // 加载所有美食
 router.get('/getTotalFoods', (req, res, next) => {
@@ -42,20 +43,45 @@ router.post('/getFoodsByCity', (req, res, next) => {
     // 获取城市集
     const cityGroup = req.body.city;
     foodDao.queryTotalFoods((result) => {
-        const cityTotal = {};
-        let newRes = JSON.parse(JSON.stringify(result));
-        // 通过城市进行分类汇总。类似"nanjing":{[]}
-        for (let i = 0; i < cityGroup.length; i++) {
-            cityTotal[cityGroup[i]] = [];
-            for (let j = 0; j < newRes.length; j++) {
-                if (newRes[j].City == cityGroup[i]) {
-                    cityTotal[cityGroup[i]].push(newRes[j]);
+        if (result == null || result.length == 0) {
+            res.json({ status: 'error', msg: "加载失败" });
+        } else {
+            const cityTotal = {};
+            let newRes = JSON.parse(JSON.stringify(result));
+            // 通过城市进行分类汇总。类似"nanjing":{[]}
+            for (let i = 0; i < cityGroup.length; i++) {
+                cityTotal[cityGroup[i]] = [];
+                for (let j = 0; j < newRes.length; j++) {
+                    if (newRes[j].City == cityGroup[i]) {
+                        cityTotal[cityGroup[i]].push(newRes[j]);
+                    }
                 }
-            }
-        };
-        res.status(200).json({ status: 'success', msg: '查询成功', data: cityTotal });
+            };
+            res.status(200).json({ status: 'success', msg: '查询成功', data: cityTotal });
+        }
     });
 
+});
+
+// 加载美食详情
+router.get('/getFoodDetail', (req, res, next) => {
+    let id = req.query.id;
+    // console.log(id);
+    const options = {
+        method: 'GET',
+        url: 'https://way.jd.com/jisuapi/detail',
+        qs:
+        {
+            id: id,
+            appkey: '1d5b6011908168f74182bb5e410b36a6'
+        }
+    };
+
+    request(options, (error, response, body) => {
+        if (error) throw new Error(error);
+        // console.log(body);
+        res.send(body);
+    });
 });
 
 // 添加美食

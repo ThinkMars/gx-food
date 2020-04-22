@@ -100,7 +100,7 @@ export default {
     },
     getStoryTitle() {
       this.axios
-        .get("http://localhost:3000/story/getStoryTitle")
+        .get("/api/story/getStoryTitle")
         .then(res => {
           let data = res.data.data;
           let length = data.length;

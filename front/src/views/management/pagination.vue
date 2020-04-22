@@ -30,11 +30,13 @@ export default {
   },
   methods: {
     handleSizeChange(value) {
+      console.log(value)
       this.queryInfo.pageSize = value;
       this.queryInfo.pageNum = 1;
       this.inquireList && this.inquireList(this.queryInfo);
     },
     handleCurrentChange(value) {
+      console.log(value)
       this.queryInfo.pageNum = value;
       this.inquireList && this.inquireList(this.queryInfo);
     }

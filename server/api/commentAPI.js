@@ -20,19 +20,20 @@ router.get('/getCommentsNum', (req, res, next) => {
         if (result == null || result.length == 0) {
             res.json({ status: 'error', msg: "加载失败" });
         } else {
+            // console.log(req.session);
             res.status(200).json({ status: 'success', msg: '加载成功', data: result });
         }
     });
 });
 // 按页数加载评论
 router.get('/getCommentByPage', (req, res, next) => {
-    let params = [type, pageNum, pageSize] = [req.query.type, req.query.pageNum*req.query.pageSize*1, req.query.pageSize*1];
+    let params = [type, pageNum, pageSize] = [req.query.type, (req.query.pageNum*1-1) * req.query.pageSize * 1, req.query.pageSize * 1];
     commentDao.queryCommentByPage(params, (result) => {
         if (result == null) {
             res.json({ status: 'error', msg: "加载失败" });
-        } else if(result.length == 0) {
+        } else if (result.length == 0) {
             res.status(200).json({ status: 'warning', msg: '没有更多了', data: null });
-        }else {
+        } else {
             res.status(200).json({ status: 'success', msg: '加载成功', data: result });
         }
     })
@@ -40,15 +41,18 @@ router.get('/getCommentByPage', (req, res, next) => {
 
 // 添加评论
 router.post('/addComment', (req, res, next) => {
-    let params = [type, uname, time, content] = [req.body.Type, req.body.Uname, req.body.Time, req.body.Content];
-    // console.log(params);
-    commentDao.insertComment(params, (result) => {
-        if (result == null || result.length == 0) {
-            res.json({ status: 'error', msg: "评论失败" });
-        } else {
-            res.status(200).json({ status: 'success', msg: '评论成功', data: null });
-        }
-    })
+    if (req.session.userInfo) {
+        let params = [type, uname, time, content] = [req.body.Type, req.body.Uname, req.body.Time, req.body.Content];
+        commentDao.insertComment(params, (result) => {
+            if (result == null || result.length == 0) {
+                res.json({ status: 'error', msg: "评论失败" });
+            } else {
+                res.status(200).json({ status: 'success', msg: '评论成功', data: null });
+            }
+        })
+    }else {
+        res.json({ status: 'error', msg: "评论失败，用户未登录或身份已经过期" });
+    }
 });
 
 // 删除评论  美食：0；故事：1

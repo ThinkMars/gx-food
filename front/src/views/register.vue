@@ -27,6 +27,9 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+import storage from '../utils/storage.js'
+
 export default {
   data() {
     var validateUser = (rule, value, callback) => {
@@ -67,26 +70,29 @@ export default {
   methods: {
     // 触发父组件事件，关闭弹窗
     handleClose() {
-      // 传递已登录状态值 1
-      this.$emit("login", 1);
+      this.$emit("login");
     },
+    ...mapActions(["login"]),
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.axios
-            .post("http://localhost:3000/user/register", this.formInfo)
-            .then(res => {
-              if (res.data.status === "success") {
-                // console.log(res);
-                this.handleClose();
-                this.$message.success(
-                  res.data.msg + "，" + "欢迎 " + this.formInfo.uname
-                );
-                this.formInfo = {};
-              } else {
-                this.$message.error(res.data.msg);
-              }
-            });
+          this.axios.post("/api/user/register", this.formInfo).then(res => {
+            if (res.data.status === "success") {
+              // console.log(res);
+              let data = res.data.data[0];
+              data.avatar =
+                "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+                storage.set("user", data),
+              this.login();
+              this.handleClose();
+              this.$message.success(
+                res.data.msg + "，" + "欢迎 " + this.formInfo.uname
+              );
+              this.formInfo = {};
+            } else {
+              this.$message.error(res.data.msg);
+            }
+          });
         } else {
           this.$message.error("出现错误，请联系管理员！");
           console.log("error submit!!");

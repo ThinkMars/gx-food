@@ -5,7 +5,7 @@
       <el-carousel indicator-position="outside" height="500px">
         <el-carousel-item v-for="(item, index) in bannerList" :key="index">
           <!-- <h3>{{ item }}</h3> -->
-          <img :src="item.Img" alt="" :style="{ width: '100%', height: '100%' }" fit="cover">
+          <img :src="item.Img" alt :style="{ width: '100%', height: '100%' }" fit="cover" />
           <!-- <el-image style="width: 100%; height: 100%" :src="item.Img" fit="fill"></el-image> -->
         </el-carousel-item>
       </el-carousel>
@@ -74,7 +74,7 @@ export default {
   methods: {
     getLunbotu() {
       this.axios
-        .get("http://localhost:3000/food/getLunbotu")
+        .get("/api/food/getLunbotu")
         .then(res => {
           let result = res.data.data;
           this.bannerList = result;

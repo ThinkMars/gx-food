@@ -35,6 +35,16 @@
                 position: absolute;
                 top: 15px;
                 right: 30px;
+                .exit {
+                    width: 100%;
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: brown;
+                    position: absolute;
+                    right: 45px;
+                    top: 12px;
+                    cursor: pointer;
+                }
             }
         }
     }

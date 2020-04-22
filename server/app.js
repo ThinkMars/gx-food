@@ -3,6 +3,9 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const session = require('express-session');
+const redis = require('redis');
+const redisStore = require('connect-redis')(session);
 
 const indexRouter = require('./routes/index');
 
@@ -10,11 +13,12 @@ const userAPI = require('./api/userAPI');
 const foodAPI = require('./api/foodAPI');
 const storyAPI = require('./api/storyAPI');
 const commentAPI = require('./api/commentAPI');
+const managerAPI = require('./api/managerAPI');
 
 const app = express();
 
 // app.all('*', (req, res, next) => {
-//   res.header('Access-Control-Allow-Origin', 'http://localhost:8090/index/storyDetail');
+//   res.header('Access-Control-Allow-Origin', 'http://localhost:8090');
 //   res.header('Access-Control-Allow-Headers', 'Content-Type');
 //   res.header('Access-Control-Allow-Methods', '*');
 //   res.header('Content-Type', 'application/json;charset=utf-8');
@@ -22,11 +26,12 @@ const app = express();
 // });
 
 // 跨域
-const cors = require('cors');
-app.use(cors({
-  origin:['http://localhost:8090'],  //指定接收的地址
-  methods:['GET','POST'],  //指定接收的请求类型
-}));
+// const cors = require('cors');
+// app.use(cors({
+//   origin: ['http://localhost:8090'],  //指定接收的地址
+//   methods: ['GET', 'POST'],  //指定接收的请求类型
+// }));
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -35,23 +40,36 @@ app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieParser("thinkmars_secret"));
+// redis服务器
+const redisClient = redis.createClient(6379, '127.0.0.1');
+// session-cookie
+app.use(session({
+  name: "session-name",
+  secret: "thinkmars_secret",
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 10 * 60 * 1000, httpOnly: true },
+  store: new redisStore({
+    client: redisClient
+  })
+}));
 
 app.use('/', indexRouter);
-
 app.use('/user', userAPI);
 app.use('/food', foodAPI);
 app.use('/story', storyAPI);
 app.use('/comment', commentAPI);
+app.use('/manager', managerAPI);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

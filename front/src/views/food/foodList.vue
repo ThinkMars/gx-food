@@ -63,7 +63,7 @@ export default {
     },
     queryFood() {
       this.axios
-        .post("http://localhost:3000/food/getFoodsByCity", {
+        .post("/api/food/getFoodsByCity", {
           city: this.cities
         })
         .then(res => {

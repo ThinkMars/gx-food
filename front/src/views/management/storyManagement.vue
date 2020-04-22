@@ -143,7 +143,8 @@ export default {
           this.dialogFormVisible = false;
         })
         .catch(() => {});
-    }
+    },
+    
   },
   created() {},
   mounted() {

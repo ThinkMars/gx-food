@@ -35,7 +35,7 @@ export default {
   methods: {
     getStory() {
       this.axios
-        .post("http://localhost:3000/story/getStoryById", {
+        .post("/api/story/getStoryById", {
           id: this.id
         })
         .then(res => {

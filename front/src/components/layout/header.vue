@@ -10,14 +10,19 @@
       active-text-color="none"
       @select="handleSelect"
     >
-      <el-menu-item index="5" @click.native="handleJump('management')">管理员</el-menu-item>
+      <el-menu-item
+        index="5"
+        @click.native="handleJump('management')"
+        v-if="this.userAuthList[0]"
+      >管理员</el-menu-item>
       <div class="avatar-icon" @click="handleOpen">
+        <span class="exit" v-if="this.isLogined" @click="logout">退出</span>
         <el-avatar :src="avatarUrl"></el-avatar>
       </div>
       <el-dialog :visible.sync="centerDialogVisible" width="35%" center>
         <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
           <el-tab-pane label="注册" name="login">
-            <register login @login="login"></register>
+            <register @login="login"></register>
           </el-tab-pane>
           <el-tab-pane label="登录" name="register">
             <login @login="login"></login>
@@ -31,6 +36,7 @@
 <script>
 import Login from "../../views/login.vue";
 import Register from "../../views/register.vue";
+import { mapGetters } from "vuex";
 export default {
   components: {
     Login,
@@ -39,11 +45,20 @@ export default {
   data() {
     return {
       activeName: "login",
-      centerDialogVisible: false,
-      hasLogined: false,
-      avatarUrl:
-        "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
+      centerDialogVisible: false
     };
+  },
+  computed: {
+    ...mapGetters(["isLogined", "userInfo", "userAuthList"]),
+    avatarUrl: {
+      get: function() {
+        return (
+          this.userInfo.avatar ||
+          "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
+        );
+      },
+      set: function() {}
+    }
   },
   methods: {
     handleSelect(key, path) {
@@ -55,20 +70,23 @@ export default {
       });
     },
     handleOpen() {
-      if (!this.hasLogined) {
+      if (!this.isLogined) {
         this.centerDialogVisible = !this.centerDialogVisible;
       } else {
         return;
       }
     },
-    login(status) {
-      if (status === 1) {
-        console.log("login");
-        this.centerDialogVisible = !this.centerDialogVisible;
-        this.avatarUrl =
-          "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png";
-        this.hasLogined = !this.hasLogined;
+    login() {
+      // 登录成功后触发的操作
+      if (this.isLogined) {
+        this.centerDialogVisible = !this.centerDialogVisible; // 关闭弹窗
       }
+    },
+    logout() {
+      localStorage.removeItem("user")
+      // this.handleJump('home')
+      // this.$router.go()
+      window.location.href = "/index"
     },
     handleClick(tab, event) {
       //   console.log(tab, event);
