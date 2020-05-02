@@ -45,7 +45,17 @@ const timeFormat = (value, fmt = "yyyy-MM-dd HH:mm:ss", defValue = "--") => {
     }
     return defValue
 }
+const authFormat =(value) => {
+    if (!value) {
+        return ""
+    }else if (Number(value) === 1) {
+        return "管理员"
+    }else if(Number(value) === 0) {
+        return "普通用户"
+    }
+}
 
 export default {
-    timeFormat
+    timeFormat,
+    authFormat
 }

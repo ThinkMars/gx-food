@@ -3,11 +3,11 @@
     <!--表单-->
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
       <el-form-item label="标题">
-        <el-input v-model="formInline.story.title" placeholder="姓名" style="width: 140px;"></el-input>
+        <el-input v-model="formInline.story.title" placeholder="标题" style="width: 140px;"></el-input>
       </el-form-item>
       <el-form-item label="时间">
         <el-date-picker
-        v-model="formInline.story.date"
+        v-model="formInline.story.time"
         type="daterange"
         range-separator="至"
         start-placeholder="开始日期"
@@ -15,22 +15,25 @@
         align="right"
       ></el-date-picker>
       </el-form-item>
-      <el-button type="primary" @click="onSubmit">查询</el-button>
+      <el-button type="primary" @click="handleSearch">查询</el-button>
     </el-form>
-    <el-table :data="tableData" stripe style="width: 100%">
+    <el-table :data="tableData" border style="width: 100%">
+      <el-table-column type="selection"></el-table-column>
+      <el-table-column prop="id" label="编号" width="90"></el-table-column>
       <el-table-column prop="title" label="标题" width="180"></el-table-column>
-      <el-table-column prop="date" label="发表时间" width="180"></el-table-column>
+      <el-table-column prop="time" label="发表时间" width="180"></el-table-column>
+      <el-table-column prop="abstract" label="摘要" width="200"></el-table-column>
       <el-table-column prop="content" label="内容" width="250"></el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+          <el-button type="warning" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <!-- 分页符 -->
-    <pagination></pagination>
+    <pagination :total="total" :queryInfo="queryInfo" :inquireList="queryList"></pagination>
 
     <!-- 编辑列表 -->
     <el-dialog title="修改个人信息" :visible="dialogFormVisible" width="40%">
@@ -39,10 +42,13 @@
           <el-input v-model="form.title"></el-input>
         </el-form-item>
         <el-form-item label="发表日期">
-          <el-date-picker type="date" placeholder="选择日期" v-model="form.date" style="width: 100%;"></el-date-picker>
+          <el-date-picker type="date" placeholder="选择日期" v-model="form.time" style="width: 100%;"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="摘要">
+          <el-input v-model="form.abstract" type="textarea"></el-input>
         </el-form-item>
         <el-form-item label="内容">
-          <el-input v-model="form.address" type="textarea"></el-input>
+          <el-input v-model="form.content" type="textarea"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="handleSave" :loading="editLoading">修改</el-button>
@@ -63,38 +69,32 @@ export default {
     return {
       dialogFormVisible: false,
       editLoading: false,
+      total: 0,
+      multipleSelection: [], // 多选框
       tableData: [
         {
-          date: "2016-05-02",
+          id: 1,
+          time: "2016-05-02",
           title: "王小虎",
+          abstract: "",
           content: "上海市普陀区金沙江路 1518 弄上海市普陀区金沙江路 1516 弄上海市普陀区金沙江路 1516 弄"
         },
-        {
-          date: "2016-05-04",
-          title: "王小虎",
-          content: "上海市普陀区金沙江路 1517 弄上海市普陀区金沙江路 1516 弄上海市普陀区金沙江路 1516 弄"
-        },
-        {
-          date: "2016-05-01",
-          title: "王小虎",
-          content: "上海市普陀区金沙江路 1519 弄上海市普陀区金沙江路 1516 弄上海市普陀区金沙江路 1516 弄上海市普陀区金沙江路 1516 弄"
-        },
-        {
-          date: "2016-05-03",
-          title: "王小虎",
-          content: "上海市普陀区金沙江路 1516 弄上海市普陀区金沙江路 1516 弄上海市普陀区金沙江路 1516 弄"
-        }
       ],
-      options: [],
+      queryInfo: {
+        pageNum: 1,
+        pageSize: 10
+      },
       form: {
         title: "",
         content: "",
-        date: ""
+        time: "",
+        abstract: ""
       },
       formInline: {
         story: {
           title: "",
-          date: "",
+          time: "",
+          abstract: "",
           content: ""
         }
       },
@@ -102,9 +102,33 @@ export default {
     };
   },
   methods: {
-    onSubmit() {
+        queryCountStory() {
+      // 获取总数
+      this.axios
+        .get("/api/manager/getCountStory")
+        .then(res => {
+          this.total = res.data.data[0].total;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    queryList(data = this.queryInfo) {
+      // 翻页
+      this.axios
+        .get("/api/manager/getStoryByPage", { params: data })
+        .then(res => {
+          let result = res.data.data;
+          this.tableData = result;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    handleSearch() {
       this.$message("查询功能暂时没有");
     },
+    // eslint-disable-next-line no-unused-vars
     handleDelete(index, row) {
       this.tableData.splice(index, 1);
       this.$message({
@@ -144,12 +168,16 @@ export default {
         })
         .catch(() => {});
     },
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+      //   console.log(val);
+    },
     
   },
-  created() {},
-  mounted() {
-    console.log("用户管理");
-  }
+  created() {
+    this.queryList()
+    this.queryCountStory()
+  },
 };
 </script>
 

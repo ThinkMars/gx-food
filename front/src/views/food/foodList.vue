@@ -1,7 +1,6 @@
 <template>
   <el-tabs v-model="activeName" type="card" @tab-click="handleClick" :stretch="true">
     <el-tab-pane v-for="(city, index) in cities" :key="index" :label="city" :name="city">
-      <!-- {{ city }} -->
       <el-row :gutter="20">
         <el-col :span="6" v-for="(food, index) in foodList" :key="index">
           <el-card>

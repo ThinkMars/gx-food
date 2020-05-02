@@ -6,7 +6,6 @@
     </h3>
     <div class="pushlish">
       <div class="avater">
-        <!-- <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar> -->
         <el-avatar :src="avatarUrl"></el-avatar>
       </div>
       <el-input
@@ -49,25 +48,17 @@ export default {
   data() {
     return {
       textarea: "",
-      commentsNum: "",
+      commentsNum: 0,
       pageNum: 1,
       pageSize: 10,
       getMoreFlag: true, // 阻止重复点击评论按钮
-      // avatarUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
-      // avatarUrl: this.userInfo.avatar,
       comments: [
-        {
-          Uname: "我爱做饭",
-          Content:
-            "这道菜真好吃这道菜真好吃这道菜真好这道菜真好吃这道菜真好吃这道菜真好吃",
-          Time: "2020-04-14 16:36:24"
-        },
-        {
-          Uname: "我爱做饭",
-          Content:
-            "这道菜真好吃这道菜真好吃这道菜真好这道菜真好吃这道菜真好吃这道菜真好吃",
-          Time: formatTime(Date.now())
-        }
+        // {
+        //   Uname: "我爱做饭",
+        //   Content:
+        //     "这道菜真好吃这道菜真好吃这道菜真好这道菜真好吃这道菜真好吃这道菜真好吃",
+        //   Time: "2020-04-14 16:36:24"
+        // }
       ]
     };
   },
@@ -83,13 +74,13 @@ export default {
   methods: {
     postComment() {
       // 用户信息
-
-      if (this.userInfo.uname) { // 用户存在才能评论
+      if (this.userInfo.uname) {
+        // 用户存在才能评论
         const commentInfo = {
           Type: this.type,
           Uname: this.userInfo.uname,
           Content: this.textarea.trim(), // 评论框内容,
-          Time: formatTime(Date.now())
+          Time: formatTime(Date.now()) // 时间格式化
         };
         // 去空添加评论
         if (commentInfo.Content.trim().length === 0) {
@@ -111,8 +102,8 @@ export default {
               console.log(err);
             });
         }
-      }else {
-        this.$message.error("需要登录才能评论哦")
+      } else {
+        this.$message.error("需要登录才能评论哦");
       }
     },
     // 加载指定数量评论
@@ -121,11 +112,13 @@ export default {
         .get("/api/comment/getComments", {
           params: {
             type: this.type,
-            num: 15
+            num: 10
           }
         })
         .then(res => {
-          this.comments = res.data.data;
+          res.data.status === "error"
+            ? (this.comments.length = 0)
+            : (this.comments = res.data.data);
         })
         .catch(err => {
           console.log(err);
@@ -158,7 +151,6 @@ export default {
             }
           })
           .then(res => {
-            // console.log(res);
             if (res.data.status === "success") {
               this.comments = this.comments.concat(res.data.data);
             } else {

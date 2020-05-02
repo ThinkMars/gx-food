@@ -66,7 +66,7 @@ export default {
           // 请求登录接口
           this.axios.post("/api/user/login", this.formInfo).then(res => {
             if (res.data.status === "success") {
-              console.log(res)
+              // console.log(res)
               let data = res.data.data[0];
               data.avatar = "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
               storage.set("user", data) // 将数据存在本地，然后直接从本地取，这样下次直接从本地储存取就行

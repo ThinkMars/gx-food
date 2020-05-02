@@ -27,7 +27,7 @@ router.get('/getCommentsNum', (req, res, next) => {
 });
 // 按页数加载评论
 router.get('/getCommentByPage', (req, res, next) => {
-    let params = [type, pageNum, pageSize] = [req.query.type, (req.query.pageNum*1-1) * req.query.pageSize * 1, req.query.pageSize * 1];
+    let params = [type, pageNum, pageSize] = [req.query.type, (req.query.pageNum*1) * req.query.pageSize * 1, req.query.pageSize * 1];
     commentDao.queryCommentByPage(params, (result) => {
         if (result == null) {
             res.json({ status: 'error', msg: "加载失败" });

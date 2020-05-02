@@ -46,6 +46,17 @@ function deleteUserById(params, success) {
     });
     connection.end();
 }
+// 删除多条记录
+function deleteMultiUserById(params, success) {
+    console.log(params)
+    const connection = dbutil.createConnection();
+    let querySql = `delete from account where id in (${params});`;
+    connection.query(querySql, params, (error, results) => {
+        if (error) throw error;
+        success(results);
+    });
+    connection.end();
+}
 function queryUserByPage(params, success) {
     const connection = dbutil.createConnection();
     let querySql = 'select id, uname, email, auth_num from account limit ?, ?;';
@@ -77,7 +88,7 @@ function queryAllStory(success) {
 }
 function queryCountArticle(success) {
     const connection = dbutil.createConnection();
-    let querySql = "select count(id) as total from artile;";
+    let querySql = "select count(id) as total from article;";
     connection.query(querySql, (error, results) => {
         if (error) throw error;
         success(results);
@@ -120,6 +131,25 @@ function deleteStoryById(params, success) {
     });
     connection.end();
 }
+// 故事数量
+function queryCountStory(success) {
+    const connection = dbutil.createConnection();
+    let querySql = "select count(id) as total from article;";
+    connection.query(querySql, (error, results) => {
+        if (error) throw error;
+        success(results);
+    });
+    connection.end();
+}
+function queryStoryByPage(params, success) {
+    const connection = dbutil.createConnection();
+    let querySql = 'select id, title, createdTime, abstract, content from article limit ?, ?;';
+    connection.query(querySql, params, (error, results) => {
+        if (error) throw error;
+        success(results);
+    })
+    connection.end()
+}
 
 
 /* 评论 */
@@ -132,6 +162,8 @@ function queryAllComment(success) {
     });
     connection.end();
 }
+
+// 评论数
 function queryCountComment(success) {
     const connection = dbutil.createConnection();
     let querySql = "select count(id) as total from comment;";
@@ -141,18 +173,56 @@ function queryCountComment(success) {
     });
     connection.end();
 }
-function queryCommentByName(params, success) {
+function deleteCommentyById(params, success) {
     const connection = dbutil.createConnection();
-    let querySql = "select uname, time, content from comment where uname = ?;"
+    let querySql = "delete from comment where id = ?;";
     connection.query(querySql, params, (error, results) => {
         if (error) throw error;
         success(results);
     });
-    connection.end();   
+    connection.end();
 }
-function deleteCommentyById(params, success) {
+// 删除多条记录
+function deleteMultiCommentById(params, success) {
+    // console.log(params)
     const connection = dbutil.createConnection();
-    let querySql = "delete from comment where id = ?;";
+    let querySql = `delete from comment where id in (${params});`;
+    connection.query(querySql, params, (error, results) => {
+        if (error) throw error;
+        success(results);
+    });
+    connection.end();
+}
+function queryCommentByPage(params, success) {
+    const connection = dbutil.createConnection();
+    let querySql = 'select id, uname, time, content, type from comment limit ?, ?;';
+    connection.query(querySql, params, (error, results) => {
+        if (error) throw error;
+        success(results);
+    })
+    connection.end()
+}
+function queryCommentByName(params, success) {
+    const connection = dbutil.createConnection();
+    let querySql = "select id, uname, time, content, type from comment where uname = ?;"
+    connection.query(querySql, params, (error, results) => {
+        if (error) throw error;
+        success(results);
+    });
+    connection.end();
+}
+function queryCommentByTime(params, success) {
+    const connection = dbutil.createConnection();
+    let querySql = "select id, uname, time, content, type from comment where time >= ? and time < ?;";
+    connection.query(querySql, params, (error, results) => {
+        if (error) throw error;
+        success(results);
+    });
+    connection.end();
+}
+function queryCommentByNameAndTime(params, success) {
+    const connection = dbutil.createConnection();
+    let querySql = "select id, uname, time, content, type from comment where uname=? and time >= ? and time < ?;";
     connection.query(querySql, params, (error, results) => {
         if (error) throw error;
         success(results);
@@ -167,6 +237,7 @@ module.exports.deleteUserByName = deleteUserByName;
 module.exports.deleteUserById = deleteUserById;
 module.exports.queryUserByPage = queryUserByPage;
 module.exports.AlertUser = AlertUser;
+module.exports.deleteMultiUserById = deleteMultiUserById;
 
 module.exports.queryAllStory = queryAllStory;
 module.exports.queryCountArticle = queryCountArticle;
@@ -174,11 +245,18 @@ module.exports.queryStoryByTitle = queryStoryByTitle;
 module.exports.queryStoryByTime = queryStoryByTime;
 module.exports.AlertStory = AlertStory;
 module.exports.deleteStoryById = deleteStoryById;
+module.exports.queryStoryByPage = queryStoryByPage;
+module.exports.queryCountStory = queryCountStory;
 
 module.exports.queryAllComment = queryAllComment;
 module.exports.queryCountComment = queryCountComment;
 module.exports.deleteCommentyById = deleteCommentyById;
+module.exports.deleteMultiCommentById = deleteMultiCommentById;
 module.exports.queryCommentByName = queryCommentByName;
+module.exports.queryCommentByPage = queryCommentByPage;
+module.exports.queryCommentByTime = queryCommentByTime;
+module.exports.queryCommentByNameAndTime = queryCommentByNameAndTime;
+
 
 
 

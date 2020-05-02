@@ -4,8 +4,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
-const redis = require('redis');
 const redisStore = require('connect-redis')(session);
+const redisClient = require("./utils/redisUtil").redisClient(); // redis服务器
 
 const indexRouter = require('./routes/index');
 
@@ -42,8 +42,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser("thinkmars_secret"));
-// redis服务器
-const redisClient = redis.createClient(6379, '127.0.0.1');
+
 // session-cookie
 app.use(session({
   name: "session-name",

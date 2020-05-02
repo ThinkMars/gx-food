@@ -144,13 +144,6 @@ export default {
   methods: {
     getFoodDetails() {
       if (this.sid !== null) {
-        // this.axios
-        //   .get(
-        //     "/api/jisuapi/detail?id=" +
-        //       this.sid +
-        //       "&appkey=1d5b6011908168f74182bb5e410b36a6"
-        //   )
-
         this.axios
           .get("/api/food/getFoodDetail", {
             params: {

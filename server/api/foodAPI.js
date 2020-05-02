@@ -66,7 +66,6 @@ router.post('/getFoodsByCity', (req, res, next) => {
 // 加载美食详情
 router.get('/getFoodDetail', (req, res, next) => {
     let id = req.query.id;
-    // console.log(id);
     const options = {
         method: 'GET',
         url: 'https://way.jd.com/jisuapi/detail',
@@ -79,7 +78,6 @@ router.get('/getFoodDetail', (req, res, next) => {
 
     request(options, (error, response, body) => {
         if (error) throw new Error(error);
-        // console.log(body);
         res.send(body);
     });
 });

@@ -2,10 +2,10 @@
   <div class="management-content">
     <!--表单-->
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
-      <el-form-item label="姓名">
+      <el-form-item label="用户名">
         <el-input
           v-model.trim="formInline.user.name"
-          placeholder="姓名"
+          placeholder="用户名"
           style="width: 200px;"
           clearable
         ></el-input>
@@ -19,12 +19,13 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection"></el-table-column>
-
-      <el-table-column prop="id" label="编号" width="180"></el-table-column>
-      <el-table-column prop="uname" label="姓名" width="180"></el-table-column>
+      
+      <el-table-column prop="id" label="编号" width="90"></el-table-column>
+      <el-table-column prop="uname" label="用户名" width="180"></el-table-column>
       <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
-      <el-table-column prop="auth_num" label="权限" width="180"></el-table-column>
-      <el-table-column label="操作">
+      <el-table-column prop="auth_num" label="权限" width="180" :formatter="authFormat">
+      </el-table-column>
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button type="warning" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
@@ -35,7 +36,7 @@
     <!-- 分页符 -->
     <pagination :total="total" :queryInfo="queryInfo" :inquireList="queryList"></pagination>
 
-    <!-- 编辑框 -->
+    <!-- 编辑弹框 -->
     <el-dialog title="修改个人信息" :visible="dialogFormVisible" width="40%">
       <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="姓名">
@@ -67,10 +68,7 @@ export default {
       dialogFormVisible: false,
       editLoading: false,
       total: 0,
-      queryInfo: {
-        pageNum: 1,
-        pageSize: 10
-      },
+      table_index: 999,
       tableData: [
         // 列表渲染数据
         {
@@ -81,7 +79,10 @@ export default {
         }
       ],
       multipleSelection: [],
-      options: [],
+      queryInfo: {
+        pageNum: 1,
+        pageSize: 10
+      },
       form: {
         // 编辑框
         name: "",
@@ -93,17 +94,20 @@ export default {
         user: {
           name: ""
         }
-      },
-      table_index: 999
+      }
     };
   },
   methods: {
-    queryCountUser() { // 获取总数
-        this.axios.get("/api/manager/getCountUser").then(res=> {
-            this.total = res.data.data[0].total
-        }).catch(err=> {
-            console.log(err)
+    queryCountUser() {
+      // 获取总数
+      this.axios
+        .get("/api/manager/getCountUser")
+        .then(res => {
+          this.total = res.data.data[0].total;
         })
+        .catch(err => {
+          console.log(err);
+        });
     },
     queryList(data = this.queryInfo) {
       // 翻页
@@ -119,7 +123,7 @@ export default {
     },
     handleSearch() {
       if (this.formInline.user.name.length === 0) {
-        this.queryAll();
+        this.queryList();
       } else {
         this.axios
           .get("/api/manager/getUserByName", {
@@ -144,20 +148,18 @@ export default {
           });
       }
     },
+    // eslint-disable-next-line no-unused-vars
     handleDelete(index, row) {
-        // 连续删除未完成
-      // const Ids = [];
-      // this.multipleSelection.forEach((item) => {
-      //     Ids.push(item.id)
-      // })
-      // console.log(Ids)
-      console.log(index, row);
+      // 连续删除未完成
+      const Ids = [];
+      this.multipleSelection.forEach(item => {
+        Ids.push(item.id);
+      });
       this.axios
-        .post("/api/manager/delUserById", { id: row.id })
+        .post("/api/manager/delMultiUserById", { id: Ids })
         .then(res => {
-        //   console.log(res);
           let message = res.data.msg;
-          this.tableData.splice(index, 1);
+          this.queryList();
           this.$message({
             message: message,
             type: "success"
@@ -184,7 +186,6 @@ export default {
           this.axios
             .post("/api/manager/alertUser", this.form)
             .then(res => {
-              console.log(res);
               if (res.data.status === "success") {
                 this.tableData.splice(this.table_index, 1, this.form);
               }
@@ -206,16 +207,21 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
-      console.log(val);
+      //   console.log(val);
+    },
+    authFormat(row) { // 表格权限格式化
+      if (Number(row.auth_num) === 0) {
+        return "普通用户";
+      } else if (Number(row.auth_num) === 1) {
+        return "管理员";
+      } else {
+        return "";
+      }
     }
   },
   created() {
-    // this.queryAll();
-    this.queryCountUser()
-    this.queryList()
-  },
-  mounted() {
-    console.log("用户管理");
+    this.queryCountUser();
+    this.queryList();
   }
 };
 </script>

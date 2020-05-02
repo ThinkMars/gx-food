@@ -31,6 +31,7 @@ export default {
     };
   },
   methods: {
+    // eslint-disable-next-line no-unused-vars
     handleClick(tab, event) {
       // console.log(tab, event);
     }
@@ -39,7 +40,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.main-content {
-    padding: 0 10%;
-}
 </style>
