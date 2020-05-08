@@ -10,20 +10,25 @@
       <el-tab-pane label="故事管理" name="third" :lazy="true">
         <story-management></story-management>
       </el-tab-pane>
-      <!-- <el-tab-pane label="菜谱管理" name="fourth">菜谱管理</el-tab-pane> -->
+      <el-tab-pane label="美食管理" name="fourth" :lazy="true">
+        <food-management></food-management>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
 import userManagement from "./userManagement.vue";
-import commentManagement from "./commentManagement";
-import storyManagement from "./storyManagement";
+import commentManagement from "./commentManagement.vue";
+import storyManagement from "./storyManagement.vue";
+import foodManagement from "./foodManagement.vue"
+
 export default {
   components: {
     userManagement,
     commentManagement,
-    storyManagement
+    storyManagement,
+    foodManagement
   },
   data() {
     return {

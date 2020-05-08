@@ -7,16 +7,22 @@ const session = require('express-session');
 const redisStore = require('connect-redis')(session);
 const redisClient = require("./utils/redisUtil").redisClient(); // redis服务器
 
-const indexRouter = require('./routes/index');
 
+
+
+const indexRouter = require('./routes/index');
 const userAPI = require('./api/userAPI');
 const foodAPI = require('./api/foodAPI');
 const storyAPI = require('./api/storyAPI');
 const commentAPI = require('./api/commentAPI');
 const managerAPI = require('./api/managerAPI');
+const fileAPI = require("./api/fileAPI");
 
 const app = express();
 
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 // app.all('*', (req, res, next) => {
 //   res.header('Access-Control-Allow-Origin', 'http://localhost:8090');
 //   res.header('Access-Control-Allow-Headers', 'Content-Type');
@@ -61,6 +67,7 @@ app.use('/food', foodAPI);
 app.use('/story', storyAPI);
 app.use('/comment', commentAPI);
 app.use('/manager', managerAPI);
+app.use('/file', fileAPI);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

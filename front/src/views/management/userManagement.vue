@@ -19,16 +19,15 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection"></el-table-column>
-      
+
       <el-table-column prop="id" label="编号" width="90"></el-table-column>
       <el-table-column prop="uname" label="用户名" width="180"></el-table-column>
       <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
-      <el-table-column prop="auth_num" label="权限" width="180" :formatter="authFormat">
-      </el-table-column>
+      <el-table-column prop="auth_num" label="权限" width="180" :formatter="authFormat"></el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button type="warning" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-          <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          <el-button type="info" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -152,9 +151,13 @@ export default {
     handleDelete(index, row) {
       // 连续删除未完成
       const Ids = [];
-      this.multipleSelection.forEach(item => {
-        Ids.push(item.id);
-      });
+      if (this.multipleSelection.length !== 0) {
+        this.multipleSelection.forEach(item => {
+          Ids.push(item.id);
+        });
+      } else {
+        Ids.push(row.id);
+      }
       this.axios
         .post("/api/manager/delMultiUserById", { id: Ids })
         .then(res => {
@@ -209,7 +212,8 @@ export default {
       this.multipleSelection = val;
       //   console.log(val);
     },
-    authFormat(row) { // 表格权限格式化
+    authFormat(row) {
+      // 表格权限格式化
       if (Number(row.auth_num) === 0) {
         return "普通用户";
       } else if (Number(row.auth_num) === 1) {

@@ -197,7 +197,7 @@ export default {
       padding: 25px 15px;
     }
     .el-button {
-      background-color: $system-color;
+      background-color: $btn-text-color;
       float: right;
       margin-top: 10px;
       &:hover {

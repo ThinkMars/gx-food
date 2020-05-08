@@ -3,7 +3,12 @@
     <!--表单-->
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
       <el-form-item label="用户名">
-        <el-input v-model.trim="formInline.user.uname" placeholder="用户名" style="width: 140px;"></el-input>
+        <el-input
+          v-model.trim="formInline.user.uname"
+          placeholder="用户名"
+          style="width: 140px;"
+          clearable
+        ></el-input>
       </el-form-item>
       <el-date-picker
         v-model="formInline.user.time"
@@ -30,7 +35,7 @@
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button type="warning" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-          <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          <el-button type="info" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -64,7 +69,7 @@
 
 <script>
 import Pagination from "./pagination.vue";
-import {formatTime} from "../../utils/index.js";
+import { formatTime } from "../../utils/index.js";
 export default {
   components: {
     Pagination
@@ -145,7 +150,7 @@ export default {
             }
           })
           .then(res => {
-              console.log(res)
+            console.log(res);
             if (res.data.status === "error") {
               this.$message({
                 message: res.data.msg,
@@ -212,14 +217,19 @@ export default {
     handleDelete(index, row) {
       // 连续删除未完成
       const Ids = [];
-      this.multipleSelection.forEach(item => {
-        Ids.push(item.id);
-      });
+      if (this.multipleSelection.length !== 0) {
+        this.multipleSelection.forEach(item => {
+          Ids.push(item.id);
+        });
+      } else {
+        Ids.push(row.id);
+      }
       this.axios
         .post("/api/manager/delMultiCommentById", { id: Ids })
         .then(res => {
           let message = res.data.msg;
           this.queryList();
+          this.queryCountComment();
           this.$message({
             message: message,
             type: "success"
@@ -245,7 +255,7 @@ export default {
           this.axios
             .post("/api/manager/alertComment", this.form)
             .then(res => {
-              console.log(res);
+              // console.log(res);
               if (res.data.status === "success") {
                 this.tableData.splice(this.table_index, 1, this.form);
               }
@@ -267,11 +277,10 @@ export default {
       console.log(val);
     },
     formatTime(row) {
-        // console.log(row.time)
-         return formatTime(row.time)
+      return formatTime(row.time);
     },
     formatType(row) {
-        if (Number(row.type) === 0) {
+      if (Number(row.type) === 0) {
         return "美食区";
       } else if (Number(row.type) === 1) {
         return "故事区";
