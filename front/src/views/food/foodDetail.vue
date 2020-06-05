@@ -58,86 +58,113 @@ export default {
       // 菜谱id
       sid: this.$route.query.sid,
       // 基本信息
+      // info: {
+      //   name: "西红柿炒鸡蛋",
+      //   peoplenum: "1-2人",
+      //   preparetime: "10分钟内",
+      //   cookingtime: "10分钟内",
+      //   content:
+      //     "西红柿炒鸡蛋可算是最为脍炙人口的家常美味。<br />而且也是很多厨房新手最先学会的一道菜品，红色西红柿搭配淡黄色鸡蛋，看着就让人很有食欲!西红柿和鸡蛋具有很好的养生保健功效，因此也是我们日常生活中不可缺少的一道佳肴，而且鸡蛋炒西红柿是营养素互补得很不错实例。在丰富营养的同时，还具有健脑抗衰老的作用。<br />此道佳肴看似简单，但要做好还是有些诀窍。厨房新手不妨和我一起试试这道最家常受欢迎的美味佳肴。",
+      //   pic: "http://api.jisuapi.com/recipe/upload/20160719/115434_69386.jpg",
+      //   tag:
+      //     "懒人食谱,美容,炒,咸香,家常菜,防辐射,抗氧化,抗衰老,延缓衰老,缓解压力,开胃,冠心病,动脉硬化"
+      // },
+      // // 食材
+      // material: [
+      //   {
+      //     mname: "油",
+      //     amount: "适量"
+      //   },
+      //   {
+      //     mname: "盐",
+      //     amount: "适量"
+      //   },
+      //   {
+      //     mname: "白糖",
+      //     amount: "2g"
+      //   },
+      //   {
+      //     mname: "香油",
+      //     amount: "适量"
+      //   },
+      //   {
+      //     mname: "西红柿",
+      //     amount: "2个"
+      //   },
+      //   {
+      //     mname: "鸡蛋",
+      //     amount: "3个"
+      //   }
+      // ],
+      // // 步骤
+      // process: [
+      //   {
+      //     pcontent: "西红柿去皮备用。",
+      //     pic: "http://api.jisuapi.com/recipe/upload/20160720/090147_36362.jpg"
+      //   },
+      //   {
+      //     pcontent: "鸡蛋打散，西红柿切小块。",
+      //     pic: "http://api.jisuapi.com/recipe/upload/20160720/090149_92039.jpg"
+      //   },
+      //   {
+      //     pcontent: "炒锅倒油烧热倒入蛋液炒散盛出备用。",
+      //     pic: "http://api.jisuapi.com/recipe/upload/20160720/090149_83647.jpg"
+      //   },
+      //   {
+      //     pcontent: "锅中再加少许油爆香葱花。",
+      //     pic: "http://api.jisuapi.com/recipe/upload/20160720/090150_54048.jpg"
+      //   },
+      //   {
+      //     pcontent: "倒入西红柿翻炒片刻。",
+      //     pic: "http://api.jisuapi.com/recipe/upload/20160720/090150_73049.jpg"
+      //   },
+      //   {
+      //     pcontent: "加入盐。",
+      //     pic: "http://api.jisuapi.com/recipe/upload/20160720/090150_39149.jpg"
+      //   },
+      //   {
+      //     pcontent: "在加少许白糖炒均匀。",
+      //     pic: "http://api.jisuapi.com/recipe/upload/20160720/090151_81369.jpg"
+      //   },
+      //   {
+      //     pcontent: "把鸡蛋倒入混合均匀。",
+      //     pic: "http://api.jisuapi.com/recipe/upload/20160720/090151_23731.jpg"
+      //   },
+      //   {
+      //     pcontent: "淋入少许香油。",
+      //     pic: "http://api.jisuapi.com/recipe/upload/20160720/090151_69068.jpg"
+      //   },
+      //   {
+      //     pcontent: "翻炒均匀关火。",
+      //     pic: "http://api.jisuapi.com/recipe/upload/20160720/090152_16699.jpg"
+      //   }
+      // ],
+
+      // 基本信息
       info: {
-        name: "西红柿炒鸡蛋",
-        peoplenum: "1-2人",
-        preparetime: "10分钟内",
-        cookingtime: "10分钟内",
+        name: "",
+        peoplenum: "",
+        preparetime: "",
+        cookingtime: "",
         content:
-          "西红柿炒鸡蛋可算是最为脍炙人口的家常美味。<br />而且也是很多厨房新手最先学会的一道菜品，红色西红柿搭配淡黄色鸡蛋，看着就让人很有食欲!西红柿和鸡蛋具有很好的养生保健功效，因此也是我们日常生活中不可缺少的一道佳肴，而且鸡蛋炒西红柿是营养素互补得很不错实例。在丰富营养的同时，还具有健脑抗衰老的作用。<br />此道佳肴看似简单，但要做好还是有些诀窍。厨房新手不妨和我一起试试这道最家常受欢迎的美味佳肴。",
-        pic: "http://api.jisuapi.com/recipe/upload/20160719/115434_69386.jpg",
+          "",
+        pic: "",
         tag:
-          "懒人食谱,美容,炒,咸香,家常菜,防辐射,抗氧化,抗衰老,延缓衰老,缓解压力,开胃,冠心病,动脉硬化"
+          ""
       },
       // 食材
       material: [
         {
-          mname: "油",
-          amount: "适量"
-        },
-        {
-          mname: "盐",
-          amount: "适量"
-        },
-        {
-          mname: "白糖",
-          amount: "2g"
-        },
-        {
-          mname: "香油",
-          amount: "适量"
-        },
-        {
-          mname: "西红柿",
-          amount: "2个"
-        },
-        {
-          mname: "鸡蛋",
-          amount: "3个"
+          mname: "",
+          amount: ""
         }
       ],
       // 步骤
       process: [
         {
-          pcontent: "西红柿去皮备用。",
-          pic: "http://api.jisuapi.com/recipe/upload/20160720/090147_36362.jpg"
+          pcontent: "",
+          pic: ""
         },
-        {
-          pcontent: "鸡蛋打散，西红柿切小块。",
-          pic: "http://api.jisuapi.com/recipe/upload/20160720/090149_92039.jpg"
-        },
-        {
-          pcontent: "炒锅倒油烧热倒入蛋液炒散盛出备用。",
-          pic: "http://api.jisuapi.com/recipe/upload/20160720/090149_83647.jpg"
-        },
-        {
-          pcontent: "锅中再加少许油爆香葱花。",
-          pic: "http://api.jisuapi.com/recipe/upload/20160720/090150_54048.jpg"
-        },
-        {
-          pcontent: "倒入西红柿翻炒片刻。",
-          pic: "http://api.jisuapi.com/recipe/upload/20160720/090150_73049.jpg"
-        },
-        {
-          pcontent: "加入盐。",
-          pic: "http://api.jisuapi.com/recipe/upload/20160720/090150_39149.jpg"
-        },
-        {
-          pcontent: "在加少许白糖炒均匀。",
-          pic: "http://api.jisuapi.com/recipe/upload/20160720/090151_81369.jpg"
-        },
-        {
-          pcontent: "把鸡蛋倒入混合均匀。",
-          pic: "http://api.jisuapi.com/recipe/upload/20160720/090151_23731.jpg"
-        },
-        {
-          pcontent: "淋入少许香油。",
-          pic: "http://api.jisuapi.com/recipe/upload/20160720/090151_69068.jpg"
-        },
-        {
-          pcontent: "翻炒均匀关火。",
-          pic: "http://api.jisuapi.com/recipe/upload/20160720/090152_16699.jpg"
-        }
       ]
     };
   },
@@ -147,7 +174,8 @@ export default {
         this.axios
           .get("/api/food/getFoodDetail", {
             params: {
-              id: this.sid
+              id: this.sid,
+              time: Date.now()
             }
           })
           .then(res => {
